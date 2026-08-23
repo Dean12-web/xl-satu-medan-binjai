@@ -1,19 +1,20 @@
 # 📄 Dokumentasi Spesifikasi REST API & Skema Database
 **Proyek:** XL SATU Medan & Binjai  
 **Kategori:** Web Application & Integration Architecture  
-**Versi:** 1.0.0  
+**Versi:** 1.1.0 (Ditambahkan Manajemen Pengguna & Autentikasi Admin CMS)  
 **Tanggal:** 23 Agustus 2026  
 
 ---
 
 ## 1. 📌 Ringkasan Arsitektur
 
-Dokumen ini menyajikan rancangan teknis transisi aplikasi **XL SATU Medan & Binjai** dari sistem *static data* frontend ke arsitektur *Decoupled / Client-Server* berbasis **REST API** dan **Relational Database (MySQL / PostgreSQL)**.
+Dokumen ini menyajikan rancangan teknis transisi aplikasi **XL SATU Medan & Binjai** dari sistem *static data* frontend ke arsitektur *Decoupled / Client-Server* berbasis **REST API** dan **Relational Database (MySQL / PostgreSQL)**, lengkap dengan sistem manajemen konten (CMS) berbasis hak akses Admin.
 
 ### Komponen Utama:
-1. **Frontend Client**: React + Vite (Aplikasi Landing Page, Katalog Paket, Peta ODP, dan Formulir Pendaftaran).
-2. **REST API Backend**: Framework Backend (seperti Laravel, Node.js/Express, atau FastAPI).
-3. **Database Engine**: Relational DB dengan dukungan Geospasial untuk menghitung titik ODP & BTS terdekat.
+1. **Frontend Client (Public)**: React + Vite (Landing Page, Katalog Paket, Peta ODP, Form Cek Coverage & Modal Registrasi).
+2. **Admin Dashboard (CMS)**: Panel Admin untuk kelola paket, titik ODP/BTS, banner slider, kontak, dan memproses order/inquiry pelanggan.
+3. **REST API Backend**: Framework Backend (Laravel / Express.js / FastAPI) dengan autentikasi berbasis Bearer Token (Sanctum / JWT).
+4. **Database Engine**: Relational DB dengan dukungan Geospasial untuk menghitung titik ODP & BTS terdekat.
 
 ---
 
@@ -21,6 +22,10 @@ Dokumen ini menyajikan rancangan teknis transisi aplikasi **XL SATU Medan & Binj
 
 ```mermaid
 erDiagram
+    USERS ||--o{ ACTIVITY_LOGS : "mencatat aksi"
+    USERS ||--o{ ORDERS : "dikelola oleh"
+    USERS ||--o{ COVERAGE_INQUIRIES : "diverifikasi oleh"
+
     CITIES ||--o{ DISTRICTS : "memiliki"
     CITIES ||--o{ ODP_NODES : "mencakup"
     CITIES ||--o{ BTS_TOWERS : "mencakup"
@@ -34,6 +39,15 @@ erDiagram
     DISTRICTS ||--o{ COVERAGE_INQUIRIES : "kecamatan pencarian"
     ODP_NODES ||--o{ COVERAGE_INQUIRIES : "titik terdekat"
     
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        string password
+        enum role "super_admin, admin, sales, technician"
+        boolean is_active
+    }
+
     HERO_SLIDES {
         string id PK
         string title
@@ -62,21 +76,51 @@ erDiagram
 
 ## 3. 🗄️ Skema Database Lengkap (SQL DDL)
 
-Berikut adalah DDL SQL siap pakai yang telah disesuaikan dengan tipe data dan aturan integritas relasional:
+Berikut adalah DDL SQL lengkap siap pakai:
 
 ```sql
 -- ==========================================================
--- 1. TABEL PAKET & DETAIL PRODUK
+-- 1. TABEL PENGGUNA (ADMIN & ROLE MANAGEMENT)
+-- ==========================================================
+
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- Hashed (Bcrypt / Argon2)
+    role ENUM('super_admin', 'admin', 'sales', 'technician') NOT NULL DEFAULT 'admin',
+    phone VARCHAR(30) NULL,
+    avatar VARCHAR(255) NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    last_login_at DATETIME NULL,
+    remember_token VARCHAR(100) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE activity_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NULL,
+    action VARCHAR(100) NOT NULL, -- e.g. 'UPDATE_PACKAGE_PRICE', 'VERIFY_ORDER', 'ADD_ODP'
+    description TEXT NOT NULL,
+    ip_address VARCHAR(45) NULL,
+    user_agent TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- ==========================================================
+-- 2. TABEL PAKET & DETAIL PRODUK
 -- ==========================================================
 
 CREATE TABLE packages (
     id VARCHAR(50) PRIMARY KEY, -- e.g. 'fiber-250', 'fwa-premium'
     name VARCHAR(150) NOT NULL, -- e.g. '250 Mbps Internet 1 Bulan'
     type ENUM('Fiber', 'FWA') NOT NULL DEFAULT 'Fiber',
-    base_speed VARCHAR(50) NULL, -- '100 Mbps' (kecepatan awal sebelum booster)
+    base_speed VARCHAR(50) NULL, -- '100 Mbps' (kecepatan sebelum booster)
     speed VARCHAR(50) NOT NULL, -- '250 Mbps' atau 'Up to 30 Mbps'
     speed_booster BOOLEAN NOT NULL DEFAULT FALSE,
-    speed_level INT DEFAULT 3, -- 1-7 (level bar kecepatan visual)
+    speed_level INT DEFAULT 3, -- 1-7 (level visual bar di UI)
     max_level INT DEFAULT 7,
     original_price DECIMAL(12,2) NULL, -- 269000.00
     promo_price DECIMAL(12,2) NOT NULL, -- 229000.00
@@ -109,13 +153,13 @@ CREATE TABLE package_ideal_for (
 CREATE TABLE package_benefits (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150) NOT NULL, -- 'Gratis Biaya Pasang'
-    description TEXT NOT NULL, -- 'Hemat biaya registrasi & instalasi standar sebesar Rp 500.000.'
+    description TEXT NOT NULL,
     sort_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE
 );
 
 -- ==========================================================
--- 2. TABEL WILAYAH & INFRASTRUKTUR JARINGAN (ODP & BTS)
+-- 3. TABEL WILAYAH & INFRASTRUKTUR JARINGAN (ODP & BTS)
 -- ==========================================================
 
 CREATE TABLE cities (
@@ -173,7 +217,7 @@ CREATE TABLE bts_towers (
 );
 
 -- ==========================================================
--- 3. TABEL TRANSAKSI: INQUIRY JANGKAUAN & REGISTRASI ORDER
+-- 4. TABEL TRANSAKSI: INQUIRY JANGKAUAN & REGISTRASI ORDER
 -- ==========================================================
 
 CREATE TABLE coverage_inquiries (
@@ -183,15 +227,17 @@ CREATE TABLE coverage_inquiries (
     city_name VARCHAR(100) NOT NULL,
     district_name VARCHAR(100) NULL,
     address_details TEXT NOT NULL,
-    gps_coordinates VARCHAR(100) NULL, -- 'Lat: 3.568500, Long: 98.657000'
+    gps_coordinates VARCHAR(100) NULL,
     lat DECIMAL(10, 7) NULL,
     lng DECIMAL(10, 7) NULL,
     nearest_odp_id VARCHAR(50) NULL,
     odp_distance_meters INT NULL,
     status ENUM('new', 'contacted', 'surveyed', 'available', 'no_coverage', 'converted') DEFAULT 'new',
+    handled_by_user_id BIGINT NULL, -- Admin/Sales yang memproses
     admin_notes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (nearest_odp_id) REFERENCES odp_nodes(id) ON DELETE SET NULL
+    FOREIGN KEY (nearest_odp_id) REFERENCES odp_nodes(id) ON DELETE SET NULL,
+    FOREIGN KEY (handled_by_user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE orders (
@@ -209,15 +255,19 @@ CREATE TABLE orders (
     lng DECIMAL(10, 7) NULL,
     status ENUM('pending', 'verified', 'scheduled', 'installed', 'cancelled') DEFAULT 'pending',
     installation_date DATETIME NULL,
-    assigned_technician VARCHAR(100) NULL,
+    assigned_technician_id BIGINT NULL, -- Relasi ke user technician
+    assigned_technician_name VARCHAR(100) NULL,
+    handled_by_user_id BIGINT NULL, -- Admin/Sales yang memverifikasi
     notes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (package_id) REFERENCES packages(id)
+    FOREIGN KEY (package_id) REFERENCES packages(id),
+    FOREIGN KEY (assigned_technician_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (handled_by_user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 -- ==========================================================
--- 4. TABEL MARKETING, SLIDES, DAN KONTEN WEBSITE
+-- 5. TABEL MARKETING, SLIDES, DAN KONTEN WEBSITE
 -- ==========================================================
 
 CREATE TABLE hero_slides (
@@ -248,7 +298,8 @@ CREATE TABLE seo_pages (
     og_image VARCHAR(255) NULL
 );
 
--- INDEXES UNTUK OPTIMASI PERFORMA GEOSPASIAL & PENCARIAN CEPAT
+-- INDEXES UNTUK OPTIMASI QUERY CEPAT
+CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_packages_type ON packages(type, is_active);
 CREATE INDEX idx_districts_city ON districts(city_id);
 CREATE INDEX idx_odp_coords ON odp_nodes(lat, lng);
@@ -260,284 +311,78 @@ CREATE INDEX idx_orders_status ON orders(status, created_at);
 
 ## 4. 🔌 Spesifikasi RESTful API Endpoints
 
-Semua endpoint publik menggunakan prefix standar: `/api/v1/`.
+### 🔐 A. Autentikasi & Profil Admin (`/api/v1/auth/*`)
 
-### 📦 A. Packages & Catalog
-
-#### 1. `GET /api/v1/packages`
-Mengambil daftar paket internet fiber dan/atau FWA.
-* **Query Parameters:**
-  * `type` (*optional*): `Fiber` | `FWA`
-  * `popular_only` (*optional*): `true` | `false`
-* **Response `200 OK`:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "id": "fiber-250",
-      "name": "250 Mbps Internet 1 Bulan",
-      "type": "Fiber",
-      "baseSpeed": "100 Mbps",
-      "speed": "250 Mbps",
-      "speedBooster": true,
-      "speedLevel": 3,
-      "maxLevel": 7,
-      "originalPrice": 269000,
-      "promoPrice": 229000,
-      "taxPrice": 254190,
-      "period": "/bulan*",
-      "badge": "Paling Populer",
-      "isPopular": true,
-      "idealFor": [
-        "Browsing",
-        "Sosial Media",
-        "Streaming 4K",
-        "Game Online"
-      ],
-      "features": [
-        "Kecepatan hingga 250 Mbps (Speed Booster)",
-        "Hingga 10 Perangkat Sekaligus",
-        "Gratis Biaya Pemasangan & Instalasi",
-        "Termasuk Router Wi-Fi Dual Band",
-        "Bonus Kuota HP Sekeluarga 25 GB",
-        "Bebas Kuota FUP (Unlimited)"
-      ]
-    }
-  ]
-}
-```
-
-#### 2. `GET /api/v1/packages/{id}`
-Mengambil data detail satu paket tertentu.
-
-#### 3. `GET /api/v1/package-benefits`
-Mengambil daftar fasilitas garansi pemasangan untuk halaman katalog paket.
+| Method | Endpoint | Kegunaan | Payload / Body |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/v1/auth/login` | Login Admin CMS | `{ "email": "admin@xlsatumedan.com", "password": "secretpassword" }` |
+| `POST` | `/api/v1/auth/logout` | Logout (Revoke Bearer Token) | Header: `Authorization: Bearer <token>` |
+| `GET` | `/api/v1/auth/me` | Cek info user yang sedang login | Header: `Authorization: Bearer <token>` |
+| `PUT` | `/api/v1/auth/profile` | Update profil user (nama, telepon, avatar) | `{ "name": "Admin Medan", "phone": "081234..." }` |
+| `PUT` | `/api/v1/auth/password` | Ganti password | `{ "currentPassword": "...", "newPassword": "..." }` |
 
 ---
 
-### 📍 B. Coverage, ODP, BTS & Geolocation
+### 🛡️ B. Admin CMS Management Routes (`/api/v1/admin/*`)
+*Semua endpoint di bawah memerlukan header `Authorization: Bearer <token>` dan hak akses role yang sesuai (`super_admin` / `admin`).*
 
-#### 1. `GET /api/v1/coverage/areas`
-Mengambil daftar Kota, Kecamatan, dan Kelurahan untuk selector wilayah.
-* **Response `200 OK`:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "city": "Kota Medan",
-      "center": [3.5952, 98.6722],
-      "zoom": 12,
-      "badge": "21 Kecamatan Aktif",
-      "description": "Pusat jaringan Fiber Optik FTTH XL SATU & BTS 5G/4G+ terlengkap di Kota Medan.",
-      "districts": [
-        {
-          "id": 1,
-          "name": "Medan Baru",
-          "status": "Tersedia (Sinyal Penuh)",
-          "type": "Fiber & FWA",
-          "lat": 3.5719,
-          "lng": 98.6548,
-          "speed": "Hingga 1 Gbps",
-          "odpCount": "110+ ODP",
-          "subAreas": ["Jl. Dr. Mansyur", "Kampus USU", "Padang Bulan", "Babura"]
-        }
-      ]
-    }
-  ]
-}
-```
+#### 1. Manajemen Paket Internet (`/admin/packages`)
+* `GET /api/v1/admin/packages` : Ambil seluruh paket (termasuk yang non-aktif).
+* `POST /api/v1/admin/packages` : Tambah paket baru.
+* `PUT /api/v1/admin/packages/{id}` : Update detail paket (harga promo, kuota, speed booster).
+* `DELETE /api/v1/admin/packages/{id}` : Hapus atau non-aktifkan paket.
 
-#### 2. `GET /api/v1/coverage/nodes`
-Mengambil marker titik ODP dan BTS untuk dirender pada peta Leaflet.
-* **Query Parameters:** `type` = `odp` | `bts` | `all`
+#### 2. Manajemen Jaringan & Titik Tiang ODP (`/admin/coverage`)
+* `POST /api/v1/admin/odp-nodes` : Tambah titik tiang ODP baru beserta koordinat lat/lng.
+* `PUT /api/v1/admin/odp-nodes/{id}` : Update slot ODP terpakai atau status tiang.
+* `DELETE /api/v1/admin/odp-nodes/{id}` : Hapus titik ODP.
+* `POST /api/v1/admin/bts-towers` : Tambah tower BTS baru.
 
-#### 3. `POST /api/v1/coverage/check-nearest`
-Menghitung jarak terdekat ke tiang ODP dan BTS berdasarkan koordinat GPS pengguna.
-* **Request Body:**
-```json
-{
-  "lat": 3.5685,
-  "lng": 98.6570
-}
-```
-* **Response `200 OK`:**
-```json
-{
-  "success": true,
-  "data": {
-    "city": "Kota Medan",
-    "district": "Medan Baru",
-    "districtDistanceKm": 0.42,
-    "nearestOdp": {
-      "id": "ODP-01",
-      "name": "Tiang ODP Fiber USU - Mansyur",
-      "status": "Aktif 1 Gbps",
-      "slots": "12/16 Tersedia",
-      "distanceMeters": 38
-    },
-    "coverageStatus": "AVAILABLE",
-    "recommendation": "Fiber FTTH Super Cepat (Tiang ODP < 150 meter)"
-  }
-}
-```
+#### 3. Manajemen Order & Leads Masuk (`/admin/orders` & `/admin/inquiries`)
+* `GET /api/v1/admin/orders` : Filter order berdasarkan status (`pending`, `verified`, `scheduled`, `installed`).
+* `PUT /api/v1/admin/orders/{id}/status` : Update status order, penugasan teknisi (`assigned_technician_id`), dan jadwal instalasi.
+* `GET /api/v1/admin/coverage-inquiries` : Lihat daftar calon pelanggan yang mengecek tiang ODP.
 
-#### 4. `POST /api/v1/coverage/inquiry`
-Menyimpan data formulir pengecekan coverage dari pengguna ke database.
-* **Request Body:**
-```json
-{
-  "fullName": "Budi Pratama",
-  "whatsapp": "081234567890",
-  "cityName": "Kota Medan",
-  "districtName": "Medan Baru",
-  "addressDetails": "Jl. Dr. Mansyur No. 45, dekat Pintu 1 USU",
-  "gpsCoordinates": "Lat: 3.568500, Long: 98.657000",
-  "lat": 3.568500,
-  "lng": 98.657000
-}
-```
-* **Response `201 Created`:**
-```json
-{
-  "success": true,
-  "message": "Inquiry berhasil disimpan. Tim sales akan segera memverifikasi ketersediaan ODP.",
-  "inquiryId": 108
-}
-```
+#### 4. Manajemen Konten Website & Banner Slider (`/admin/cms`)
+* `GET /api/v1/admin/hero-slides` & `POST /api/v1/admin/hero-slides` : Kelola banner slider halaman depan.
+* `PUT /api/v1/admin/hero-slides/{id}` : Update urutan atau gambar slide.
+* `PUT /api/v1/admin/site-settings` : Update nomor WhatsApp Sales, nomor CS, dan alamat kantor.
+* `PUT /api/v1/admin/seo/{pageKey}` : Update meta title & description SEO tiap halaman.
+
+#### 5. Manajemen Pengguna / Admin (`/admin/users`) — *Khusus Super Admin*
+* `GET /api/v1/admin/users` : Daftar admin & staff.
+* `POST /api/v1/admin/users` : Tambah admin/sales/teknisi baru.
+* `PUT /api/v1/admin/users/{id}` : Edit role atau status aktif.
+* `DELETE /api/v1/admin/users/{id}` : Hapus akun.
 
 ---
 
-### 📝 C. Orders & Registrasi Pelanggan
+### 🌐 C. Public Endpoints (Untuk Frontend React Pelanggan)
 
-#### 1. `POST /api/v1/orders`
-Menyimpan pendaftaran pemasangan paket baru dari modal order.
-* **Request Body:**
-```json
-{
-  "packageId": "fiber-250",
-  "customerName": "Muhammad Rizky",
-  "whatsapp": "081298765432",
-  "city": "Kota Medan",
-  "installationAddress": "Jl. Ringroad No. 88, Kec. Medan Sunggal",
-  "notes": "Pemasangan mohon di jadwalkan hari Sabtu"
-}
-```
-* **Response `201 Created`:**
-```json
-{
-  "success": true,
-  "message": "Pendaftaran berhasil dibuat.",
-  "data": {
-    "orderNumber": "ORD-20260823-0042",
-    "packageName": "250 Mbps Internet 1 Bulan",
-    "promoPrice": 229000,
-    "customerName": "Muhammad Rizky",
-    "whatsapp": "081298765432",
-    "status": "pending",
-    "whatsAppRedirectUrl": "https://wa.me/6287780346500?text=..."
-  }
-}
-```
-
-#### 2. `GET /api/v1/orders/{orderNumber}`
-Melacak status pendaftaran pelanggan (misal: `pending` -> `verified` -> `scheduled` -> `installed`).
-
----
-
-### ⚙️ D. Settings, Slides & Dynamic Content
-
-| Method | Endpoint | Deskripsi |
+| Method | Endpoint | Kegunaan di Frontend Client |
 | :--- | :--- | :--- |
-| `GET` | `/api/v1/hero-slides` | Mengambil banner slider promosi aktif |
-| `GET` | `/api/v1/site-config` | Mengambil kontak WhatsApp, Call Center, dan Medsos |
-| `GET` | `/api/v1/seo/{pageKey}` | Dynamic SEO metadata & JSON-LD schema (`home`, `paket`, `fwa`, `coverage`) |
+| `GET` | `/api/v1/packages` | Menampilkan paket aktif di [HomePage](file:///Users/yudi-macair/Desktop/xl-satu-medan-binjai/src/pages/HomePage.jsx) & [PaketPage](file:///Users/yudi-macair/Desktop/xl-satu-medan-binjai/src/pages/PaketPage.jsx) |
+| `GET` | `/api/v1/packages/{id}` | Detail paket tertentu |
+| `GET` | `/api/v1/package-benefits` | Garansi & fasilitas pemasangan |
+| `GET` | `/api/v1/coverage/areas` | Daftar kota & kecamatan untuk dropdown [CoverageForm](file:///Users/yudi-macair/Desktop/xl-satu-medan-binjai/src/components/CoverageForm.jsx) |
+| `GET` | `/api/v1/coverage/nodes` | Marker tiang ODP & BTS untuk peta Leaflet |
+| `POST` | `/api/v1/coverage/check-nearest` | Kalkulasi otomatis ODP terdekat dari lat/lng GPS |
+| `POST` | `/api/v1/coverage/inquiry` | Submit form cek jangkauan pelanggan |
+| `POST` | `/api/v1/orders` | Submit form pendaftaran dari [OrderModal](file:///Users/yudi-macair/Desktop/xl-satu-medan-binjai/src/components/OrderModal.jsx) |
+| `GET` | `/api/v1/hero-slides` | Slider promo aktif di halaman utama |
+| `GET` | `/api/v1/site-config` | Nomor WhatsApp, Call Center, Medsos untuk footer & floating button |
+| `GET` | `/api/v1/seo/{pageKey}` | Dynamic SEO meta tags & Schema.org JSON-LD |
 
 ---
 
-## 5. 💻 Contoh Implementasi Integrasi Frontend React
+## 5. 👥 Hak Akses Role Pengguna (Role-Based Access Control)
 
-Berikut adalah service layer `src/services/apiService.js` untuk menggantikan impor mock data lokal di React:
-
-```javascript
-// src/services/apiService.js
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
-
-async function apiFetch(endpoint, options = {}) {
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      ...options.headers
-    },
-    ...options
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || 'Terjadi kesalahan pada server');
-  }
-  return data;
-}
-
-// 1. Ambil Katalog Paket
-export const getPackages = (type = '') => {
-  return apiFetch(type ? `/packages?type=${type}` : '/packages');
-};
-
-// 2. Ambil Area Coverage & Titik ODP
-export const getCoverageAreas = () => {
-  return apiFetch('/coverage/areas');
-};
-
-export const getCoverageNodes = () => {
-  return apiFetch('/coverage/nodes');
-};
-
-// 3. Cek Jarak ODP Terdekat (Backend Haversine / Spatial Calculation)
-export const checkNearestOdp = (lat, lng) => {
-  return apiFetch('/coverage/check-nearest', {
-    method: 'POST',
-    body: JSON.stringify({ lat, lng })
-  });
-};
-
-// 4. Submit Form Cek Coverage
-export const submitCoverageInquiry = (formData) => {
-  return apiFetch('/coverage/inquiry', {
-    method: 'POST',
-    body: JSON.stringify(formData)
-  });
-};
-
-// 5. Submit Order Pasang Baru
-export const submitOrder = (orderData) => {
-  return apiFetch('/orders', {
-    method: 'POST',
-    body: JSON.stringify(orderData)
-  });
-};
-
-// 6. Ambil Pengaturan Web & SEO
-export const getSiteConfig = () => {
-  return apiFetch('/site-config');
-};
-
-export const getSeoByPage = (pageKey) => {
-  return apiFetch(`/seo/${pageKey}`);
-};
-```
-
----
-
-## 6. 🛡️ Rekomendasi Keamanan & Performa Backend
-
-1. **Spatial Queries**:
-   Gunakan fungsi bawaan database spatial seperti `ST_Distance_Sphere(point(lng, lat), point(odp_lng, odp_lat))` di MySQL 8+ / PostGIS untuk pencarian tiang ODP terdekat dengan kecepatan sub-milidetik.
-2. **Rate Limiting**:
-   Batasi endpoint `POST /api/v1/coverage/inquiry` dan `POST /api/v1/orders` (misal maks. 5 request / menit per IP) untuk mencegah spam bot form.
-3. **CORS Policy**:
-   Izinkan origin domain frontend Anda (misal `https://xlsatumedanbinjai.com` dan `http://localhost:5173`).
-4. **WhatsApp Automation Webhook**:
-   Saat status order berubah menjadi `scheduled` atau `installed`, backend dapat mentrigger webhook WhatsApp API otomatis ke nomor pelanggan.
+| Fitur / Modul | Super Admin | Admin CMS | Sales | Teknisi |
+| :--- | :---: | :---: | :---: | :---: |
+| **Kelola User & Hak Akses** | ✅ | ❌ | ❌ | ❌ |
+| **Edit Harga & Paket Internet** | ✅ | ✅ | ❌ | ❌ |
+| **Kelola Banner Slider & SEO** | ✅ | ✅ | ❌ | ❌ |
+| **Kelola Titik Tiang ODP & BTS** | ✅ | ✅ | ❌ | ❌ |
+| **Lihat & Follow-up Order Pelanggan** | ✅ | ✅ | ✅ | ❌ |
+| **Update Jadwal & Status Instalasi** | ✅ | ✅ | ❌ | ✅ |
+| **Lihat Riwayat Activity Logs** | ✅ | ❌ | ❌ | ❌ |
