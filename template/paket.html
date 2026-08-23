@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>XL SATU - Pilihan Paket</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'xl-blue': '#1A4789',
+                        'xl-blue-light': '#3B82F6',
+                        'xl-green': '#00BFA5',
+                        'xl-bg-gray': '#F4F7F9',
+                        'tag-bg': '#5c92c9',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style data-purpose="custom-styles">
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .text-xl-blue {
+            color: #164391;
+        }
+
+        .bg-xl-blue {
+            background-color: #164391;
+        }
+
+        .text-xl-green {
+            color: #00A388;
+        }
+
+        .bg-xl-green {
+            background-color: #00A388;
+        }
+
+        .bg-light-blue-gradient {
+            background: linear-gradient(180deg, #E6F3FF 0%, #FFFFFF 100%);
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-header-gradient {
+            background: linear-gradient(180deg, #D4EDFA 0%, #FFFFFF 100%);
+        }
+
+        .hero-bg {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 100%), url('https://placehold.co/1600x900/e0f2fe/1a4789?text=Rumah+Pintar+Background') no-repeat center center;
+            background-size: cover;
+        }
+
+        .plan-card-bg {
+            background: linear-gradient(180deg, #E0F2FE 0%, #FFFFFF 20%);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body class="bg-xl-bg-gray text-gray-800 antialiased overflow-x-hidden">
+    <!-- BEGIN: Top Bar -->
+    <div class="bg-xl-blue text-white text-xs py-2 px-4 flex justify-between items-center relative z-50">
+        <div class="flex-1 flex justify-center items-center space-x-2">
+            <span>Mau berlangganan XL SATU?</span>
+            <button
+                class="bg-white text-xl-blue px-3 py-1 rounded-full font-semibold hover:bg-gray-100 transition">Daftar
+                Sekarang!</button>
+        </div>
+        <div class="absolute right-4 text-white">
+            <svg class="w-4 h-4 cursor-pointer" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+        </div>
+    </div>
+    <!-- END: Top Bar -->
+    <!-- BEGIN: MainHeader -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm">
+        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <!-- Logo Placeholder -->
+                <div class="text-xl-blue font-bold text-2xl flex items-center">
+                    <span class="text-xl-green text-3xl mr-1">X</span>satu
+                </div>
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Paket</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Promo</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bantuan</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bayar Tagihan</a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Kuota HP Sekeluarga
+                </a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Blog &amp; Artikel
+                </a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <!-- END: MainHeader -->
+    <!-- BEGIN: Main Content Section -->
+    <main class="relative min-h-screen">
+        <!-- Hero Background Area -->
+        <div class="absolute inset-0 z-0 h-full w-full">
+            <img alt="Smart Home Background" class="object-cover w-full h-[800px] lg:h-[900px]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIEytn1OakQkHAjkDoZdYPmFYQ0lJlR-TXahzCndsvfrmoYfQn5ljdopniuDnoZPOy9SVkTVD5mJ3Bo27tzsbQF1aFlyPxSZhtw0uEPAmPYVssZ8jW7b-1tgl3OqU1LB_ZcWccqqP3WA88hcWXagxzfdgDMd-U0b4AstqNSBWaPAcgEmWpY7Wk4dKtYymRKnipUhZC0L3wO-arH6-ejk_wI7J-LqHrWEnX8k22C_DynplJMa9guIgm" />
+            <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/50 to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-4 lg:px-8 relative z-10 pt-12 pb-24">
+            <div class="flex flex-col lg:flex-row items-center lg:items-start justify-end lg:pr-12">
+                <!-- Plans Carousel Container -->
+                <div class="w-full lg:w-2/3 xl:w-3/5 flex items-center relative mt-12 lg:mt-0">
+                    <!-- Prev Button -->
+                    <button
+                        class="absolute left-0 lg:-left-6 z-20 bg-xl-blue/50 hover:bg-xl-blue text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-lg transform -translate-x-1/2">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <div class="flex overflow-x-hidden gap-6 py-4 px-2 w-full snap-x snap-mandatory scroll-smooth">
+                        <!-- Plan Card 1: 250 Mbps -->
+                        <div
+                            class="plan-card-bg rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 min-w-[320px] max-w-[360px] flex-shrink-0 snap-center border border-blue-50 relative overflow-hidden flex flex-col h-[700px]">
+                            <!-- Dotted pattern background element -->
+                            <div
+                                class="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(#CBD5E1_2px,transparent_2px)] [background-size:12px_12px] opacity-40">
+                            </div>
+                            <div class="mb-6 relative z-10">
+                                <h3 class="text-3xl font-extrabold text-xl-blue leading-tight mb-4">250 Mbps Internet 1
+                                    Bulan</h3>
+                                <!-- Speed Bar Indicator -->
+                                <div class="flex gap-1 mb-6">
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm text-gray-600 font-medium leading-tight">
+                                        Kecepatan internet<br />dengan Speed Booster
+                                    </div>
+                                    <div class="flex items-baseline space-x-1">
+                                        <span class="text-gray-400 font-bold line-through text-sm">100<span
+                                                class="text-xs"> MBPS</span></span>
+                                        <span class="text-4xl font-extrabold text-xl-blue">250<span
+                                                class="text-sm font-bold text-gray-500 ml-1">MBPS</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Ideal For Tags -->
+                            <div class="mb-6">
+                                <p class="text-sm font-bold text-gray-800 mb-3">Ideal untuk kamu</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Browsing</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Sosial
+                                        Media</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Streaming
+                                        4K</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Video
+                                        Conference HD</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Game
+                                        Online</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Upload
+                                        Konten HD</span>
+                                </div>
+                            </div>
+                            <hr class="border-gray-200 mb-6" />
+                            <!-- Features List -->
+                            <ul class="space-y-4 mb-auto text-sm font-medium text-gray-800">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-mobile-screen text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Hingga 10 Perangkat</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-wrench text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Gratis Biaya Instalasi</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-clock text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Promo Terbatas</span>
+                                </li>
+                            </ul>
+                            <hr class="border-gray-200 my-6" />
+                            <!-- Pricing Area -->
+                            <div class="mt-auto">
+                                <div class="text-sm text-gray-500 mb-1">Mulai dari <span
+                                        class="line-through">Rp289.000/bulan</span></div>
+                                <div class="flex items-baseline mb-1">
+                                    <span class="text-3xl font-extrabold text-xl-blue">Rp229.000</span>
+                                    <span class="text-lg font-bold text-xl-blue">/bulan*</span>
+                                </div>
+                                <div class="text-xs text-gray-500 mb-6">Harga setelah PPN Rp254.190</div>
+                                <button
+                                    class="w-full bg-xl-blue hover:bg-blue-800 text-white font-bold py-4 rounded-xl transition-colors text-lg">
+                                    Saya Pilih Ini
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Plan Card 2: 350 Mbps -->
+                        <div
+                            class="plan-card-bg rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 min-w-[320px] max-w-[360px] flex-shrink-0 snap-center border border-blue-50 relative overflow-hidden flex flex-col h-[700px]">
+                            <div
+                                class="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(#CBD5E1_2px,transparent_2px)] [background-size:12px_12px] opacity-40">
+                            </div>
+                            <div class="mb-6 relative z-10">
+                                <h3 class="text-3xl font-extrabold text-xl-blue leading-tight mb-4">350 Mbps Internet 1
+                                    Bulan</h3>
+                                <!-- Speed Bar Indicator -->
+                                <div class="flex gap-1 mb-6">
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-xl-blue rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                    <div class="h-2 flex-1 bg-blue-200 rounded-full"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm text-gray-600 font-medium leading-tight">
+                                        Kecepatan internet<br />dengan Speed Booster
+                                    </div>
+                                    <div class="flex items-baseline space-x-1">
+                                        <span class="text-gray-400 font-bold line-through text-sm">150<span
+                                                class="text-xs"> MBPS</span></span>
+                                        <span class="text-4xl font-extrabold text-xl-blue">350<span
+                                                class="text-sm font-bold text-gray-500 ml-1">MBPS</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Ideal For Tags -->
+                            <div class="mb-6">
+                                <p class="text-sm font-bold text-gray-800 mb-3">Ideal untuk kamu</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Browsing</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Sosial
+                                        Media</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Streaming
+                                        4K</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Video
+                                        Conference 4K</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Game
+                                        Online</span>
+                                    <span
+                                        class="bg-tag-bg text-white text-[11px] font-semibold px-3 py-1.5 rounded-full">Upload
+                                        Konten HD</span>
+                                </div>
+                            </div>
+                            <hr class="border-gray-200 mb-6" />
+                            <!-- Features List -->
+                            <ul class="space-y-4 mb-auto text-sm font-medium text-gray-800">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-mobile-screen text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Hingga 12 Perangkat</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-wrench text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Gratis Biaya Instalasi</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-clock text-lg w-6 text-center mr-3 mt-0.5"></i>
+                                    <span>Promo Terbatas</span>
+                                </li>
+                            </ul>
+                            <hr class="border-gray-200 my-6" />
+                            <!-- Pricing Area -->
+                            <div class="mt-auto">
+                                <div class="text-sm text-gray-500 mb-1">Mulai dari <span
+                                        class="line-through">Rp359.000/bulan</span></div>
+                                <div class="flex items-baseline mb-1">
+                                    <span class="text-3xl font-extrabold text-xl-blue">Rp279.000</span>
+                                    <span class="text-lg font-bold text-xl-blue">/bulan*</span>
+                                </div>
+                                <div class="text-xs text-gray-500 mb-6">Harga setelah PPN Rp309.690</div>
+                                <button
+                                    class="w-full bg-xl-blue hover:bg-blue-800 text-white font-bold py-4 rounded-xl transition-colors text-lg">
+                                    Saya Pilih Ini
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Partial Card 3 for slider visual effect -->
+                        <div
+                            class="plan-card-bg rounded-3xl shadow-md p-6 min-w-[320px] max-w-[360px] flex-shrink-0 snap-center border border-blue-50 opacity-50 pointer-events-none hidden lg:block">
+                            <!-- Content hidden for brevity, just for layout -->
+                            <div class="h-full w-full"></div>
+                        </div>
+                    </div>
+                    <!-- Next Button -->
+                    <button
+                        class="absolute right-0 lg:-right-6 z-20 bg-xl-blue hover:bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-lg transform translate-x-1/2">
+                        <i class="fa-solid fa-chevron-right text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Floating Help Button -->
+        <div class="fixed bottom-24 right-8 z-50 cursor-pointer hover:-translate-y-1 transition-transform">
+            <div class="relative">
+                <div
+                    class="bg-white rounded-lg shadow-lg p-2 text-xs font-bold text-xl-blue absolute -top-8 -left-12 whitespace-nowrap border border-gray-100">
+                    Butuh<br />bantuan?<br />Klik disini
+                    <!-- Arrow pointing to avatar -->
+                    <div
+                        class="absolute right-[-6px] top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-t-transparent border-l-[6px] border-l-white border-b-4 border-b-transparent">
+                    </div>
+                </div>
+                <img alt="Customer Service" class="w-20 h-20 rounded-full border-4 border-white shadow-xl object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfAM2l7PhjIH7so-vtPk0tHeJW6fVWZig8JpMdVzQjBCUcdCyFET81sDoULRlOu4f0YgDH0LidgroGJB3esQGY4EXSGKP7cGzRc6uLRo_2TomJ3Elg3rWoPR4QYATLS9ngvDXSv25MaWaNxIgiG97kN1dU6Yf64O79A3K8vqtdPZMYY8i0ezfkrROpDxRA7MfrwTFTs3Ma8uD82g5iTbgyiFNtXD5WObG0Q1KS4zm12LhRMJ4r0fyP" />
+            </div>
+        </div>
+    </main>
+    <!-- END: Help & Contact Section -->
+    <!-- BEGIN: Footer -->
+    <footer class="bg-xl-blue text-white py-6 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="mb-4 md:mb-0">
+                Copyright © 2012-2026 XL SATU
+            </div>
+            <div class="flex gap-6 mb-4 md:mb-0">
+                <a class="hover:underline" href="#">Syarat &amp; Ketentuan</a>
+                <a class="hover:underline" href="#">Kebijakan &amp; Privasi</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                        </path>
+                    </svg></a>
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z">
+                        </path>
+                    </svg></a>
+                <span class="font-bold">xlsatu</span>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+</body>
+
+</html>

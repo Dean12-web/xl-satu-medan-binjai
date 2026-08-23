@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Bantuan - XL SATU</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'xl-blue': '#1b4d99',
+                        'xl-blue-light': '#2b75cc',
+                        'xl-green': '#00a382',
+                        'xl-dark': '#333333',
+                        'xl-gray': '#f5f5f5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style data-purpose="custom-styles">
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .text-xl-blue {
+            color: #164391;
+        }
+
+        .bg-xl-blue {
+            background-color: #164391;
+        }
+
+        .text-xl-green {
+            color: #00A388;
+        }
+
+        .bg-xl-green {
+            background-color: #00A388;
+        }
+
+        .bg-light-blue-gradient {
+            background: linear-gradient(180deg, #E6F3FF 0%, #FFFFFF 100%);
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-header-gradient {
+            background: linear-gradient(180deg, #D4EDFA 0%, #FFFFFF 100%);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1b4d99 0%, #2b75cc 100%);
+        }
+
+        .contact-card-bg {
+            background: linear-gradient(180deg, #e6f0fa 0%, #f5f5f5 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen flex flex-col">
+    <!-- BEGIN: Top Bar -->
+    <div class="bg-xl-blue text-white text-xs py-2 px-4 flex justify-between items-center relative z-50">
+        <div class="flex-1 flex justify-center items-center space-x-2">
+            <span>Mau berlangganan XL SATU?</span>
+            <button
+                class="bg-white text-xl-blue px-3 py-1 rounded-full font-semibold hover:bg-gray-100 transition">Daftar
+                Sekarang!</button>
+        </div>
+        <div class="absolute right-4 text-white">
+            <svg class="w-4 h-4 cursor-pointer" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+        </div>
+    </div>
+    <!-- END: Top Bar -->
+    <!-- BEGIN: MainHeader -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm">
+        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <!-- Logo Placeholder -->
+                <div class="text-xl-blue font-bold text-2xl flex items-center">
+                    <span class="text-xl-green text-3xl mr-1">X</span>satu
+                </div>
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Paket</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Promo</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bantuan</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bayar Tagihan</a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Kuota HP Sekeluarga
+                </a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Blog &amp; Artikel
+                </a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <!-- END: MainHeader -->
+    <!-- BEGIN: Main Content -->
+    <main class="flex-grow">
+        <!-- BEGIN: Hero Section -->
+        <section class="hero-gradient text-white py-16 px-4 md:px-8">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <p class="text-sm md:text-base mb-2">Butuh Bantuan?</p>
+                    <h1 class="text-3xl md:text-4xl font-bold">Kami Siap Membantu!</h1>
+                </div>
+                <div class="w-full md:w-1/2 max-w-md flex space-x-2">
+                    <input
+                        class="w-full rounded-full py-3 px-6 text-gray-800 border-none focus:ring-2 focus:ring-xl-green shadow-sm"
+                        placeholder="Cari topik bantuan" type="text" />
+                    <button
+                        class="bg-white text-xl-dark font-semibold rounded-full py-3 px-8 hover:bg-gray-100 transition shadow-sm">Cari</button>
+                </div>
+            </div>
+        </section>
+        <!-- END: Hero Section -->
+        <!-- BEGIN: Categories Section -->
+        <section class="py-12 px-4 md:px-8 max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6">Cari Berdasarkan Kategori</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Category Card 1 -->
+                <a class="border rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition"
+                    href="#">
+                    <div class="text-4xl text-xl-blue mb-4"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="font-semibold text-sm">Kuota HP Sekeluarga</h3>
+                </a>
+                <!-- Category Card 2 -->
+                <a class="border rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition"
+                    href="#">
+                    <div class="text-4xl text-xl-blue mb-4"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <h3 class="font-semibold text-sm">Pembayaran dan Tagihan</h3>
+                </a>
+                <!-- Category Card 3 -->
+                <a class="border rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition"
+                    href="#">
+                    <div class="text-4xl text-xl-blue mb-4"><i class="fa-solid fa-tower-broadcast"></i></div>
+                    <h3 class="font-semibold text-sm">Jangkauan dan Layanan</h3>
+                </a>
+                <!-- Category Card 4 -->
+                <a class="border rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition"
+                    href="#">
+                    <div class="text-4xl text-xl-blue mb-4 flex items-center justify-center">
+                        <span class="text-xl-green text-3xl mr-1 font-bold">X</span><span
+                            class="font-bold text-xl-blue">satu<span
+                                class="text-xs text-xl-green align-top">Lite</span></span>
+                    </div>
+                    <h3 class="font-semibold text-sm">XL Satu Lite</h3>
+                </a>
+            </div>
+        </section>
+        <!-- END: Categories Section -->
+        <!-- BEGIN: FAQ Section -->
+        <section class="py-12 px-4 md:px-8 max-w-6xl mx-auto flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/3">
+                <h2 class="text-2xl font-bold">Paling Sering Ditanyakan</h2>
+            </div>
+            <div class="md:w-2/3 space-y-4">
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apa itu XL SATU?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apakah merger antara XL dan Smartfren akan berdampak pada pelanggan atau layanan XL SATU?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Siapa saja yang dapat berlangganan XL SATU?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apakah saya harus punya nomor XL prabayar atau XL Prioritas untuk menikmati Kuota HP Sekeluarga
+                        nya?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apa saja persyaratan untuk mulai berlangganan?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apa saja yang dapat mempengaruhi kecepatan internet XL SATU?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border rounded-lg shadow-sm">
+                    <button
+                        class="w-full text-left px-6 py-4 font-medium flex justify-between items-center focus:outline-none">
+                        Apa arti dari First Media Jadi XL SATU?
+                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- END: FAQ Section -->
+    </main>
+    <!-- END: Main Content -->
+    <!-- BEGIN: Pre-Footer Section -->
+    <div class="bg-xl-gray py-16 px-4 md:px-8 mt-12 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-12">
+            <!-- Left Column: Help Links -->
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-6">Bantuan</h3>
+                <ul class="space-y-4">
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Apa itu
+                            XL SATU? <i class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Apakah
+                            merger antara XL dan Smartfren akan berdampak pada pelanggan atau layanan XL SATU? <i
+                                class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Siapa
+                            saja yang dapat berlangganan XL SATU? <i
+                                class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Apakah
+                            saya harus punya nomor XL prabayar atau XL Prioritas untuk menikmati Kuota HP Sekeluarga
+                            nya? <i class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Apa saja
+                            yang dapat mempengaruhi kecepatan internet XL SATU? <i
+                                class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                    <li class="border-b border-gray-300 pb-4"><a
+                            class="flex justify-between items-center text-gray-700 hover:text-xl-blue" href="#">Apa arti
+                            dari First Media Jadi XL SATU? <i
+                                class="fa-solid fa-chevron-right text-sm text-xl-blue"></i></a></li>
+                </ul>
+                <a class="inline-block mt-6 font-bold text-xl-blue hover:underline" href="#">Lihat Pertanyaan
+                    Lainnya!</a>
+            </div>
+            <!-- Right Column: Contact Us -->
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-6">Hubungi Kami</h3>
+                <div class="contact-card-bg rounded-2xl p-8 relative overflow-hidden flex flex-col justify-between">
+                    <div class="z-10 relative">
+                        <h4 class="text-3xl font-bold text-xl-blue mb-2">Butuh Bantuan?</h4>
+                        <p class="text-gray-700 mb-8">Kami siap bantu kamu untuk semua informasi tentang XL SATU</p>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-500 mb-2">Sales Center</p>
+                                <div class="space-y-2">
+                                    <a class="inline-flex items-center bg-xl-green text-white rounded-full px-4 py-2 font-bold w-fit"
+                                        href="tel:8200">
+                                        <i class="fa-solid fa-phone mr-2"></i> Pengguna XL 8200
+                                    </a>
+                                    <a class="inline-flex items-center bg-blue-400 text-white rounded-full px-4 py-2 font-bold w-fit block"
+                                        href="tel:0818123820">
+                                        <i class="fa-solid fa-phone mr-2"></i> Pengguna Non-XL 0818 123 820
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-500 mb-2">Customer Service</p>
+                                <div class="space-y-2">
+                                    <a class="inline-flex items-center bg-xl-green text-white rounded-full px-4 py-2 font-bold w-fit"
+                                        href="tel:820">
+                                        <i class="fa-solid fa-phone mr-2"></i> Pengguna XL 820
+                                    </a>
+                                    <a class="inline-flex items-center bg-blue-500 text-white rounded-full px-4 py-2 font-bold w-fit block"
+                                        href="tel:08170123442">
+                                        <i class="fa-solid fa-phone mr-2"></i> Pengguna Non-XL 0817 0123 442
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="mt-8 bg-xl-blue text-white rounded-full px-6 py-3 font-bold flex items-center shadow-md hover:bg-xl-blue-light transition">
+                            <i class="fa-solid fa-comment-dots mr-2"></i> Chat Virtual Assistant
+                        </button>
+                    </div>
+                    <!-- Decorative Customer Service Image Placeholder -->
+                    <div class="absolute bottom-0 right-0 w-48 h-auto z-0 opacity-80 mix-blend-multiply">
+                        <img alt="Customer Service Agent" class="object-cover w-full h-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGJtg3qzcRYJrVZshozP4oHJG4cYCmZldgx-WnDHtlv9r2w1yNwktRkoeeszd3RG71K1JTpBVxR_5CuShSgjMePhEayhlTqfhgbBTcwifXXHCvU9EudMHKJGCJFEd1_6s-8O-8zjBT5z2t3eQD4tQ-zq5mU_dvks-G0l7LwqkfF3lGF7nXHWsVwYInfCY-ssQR9ifnAIbPKkpYbe7UH_dqa7ADFKzJ3hBhmBXKYWwilUpY-eM0XKAW" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Help & Contact Section -->
+    <!-- BEGIN: Footer -->
+    <footer class="bg-xl-blue text-white py-6 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="mb-4 md:mb-0">
+                Copyright © 2012-2026 XL SATU
+            </div>
+            <div class="flex gap-6 mb-4 md:mb-0">
+                <a class="hover:underline" href="#">Syarat &amp; Ketentuan</a>
+                <a class="hover:underline" href="#">Kebijakan &amp; Privasi</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                        </path>
+                    </svg></a>
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z">
+                        </path>
+                    </svg></a>
+                <span class="font-bold">xlsatu</span>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+</body>
+
+</html>

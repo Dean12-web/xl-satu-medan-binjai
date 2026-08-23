@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>XL SATU FWA Premium</title>
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0057b8',
+                            teal: '#00c7b5',
+                            dark: '#031b4e',
+                            light: '#f8fbff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <style data-purpose="custom-animations-and-shapes">
+        /* FWA Hub Animations */
+        @keyframes floatRouter {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateY(0);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateY(-8px);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(0);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes spinReverse {
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(0);
+            }
+        }
+
+        @keyframes floatText {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes pulseWA {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 199, 181, .5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(0, 199, 181, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 199, 181, 0);
+            }
+        }
+
+        @keyframes fadeBanner {
+            from {
+                opacity: 0;
+                transform: scale(1.03);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hub-center {
+            animation: floatRouter 4s ease-in-out infinite;
+        }
+
+        .ring1 {
+            animation: spin 25s linear infinite;
+        }
+
+        .ring2 {
+            animation: spinReverse 35s linear infinite;
+        }
+
+        .wa-message {
+            animation: floatText 3s infinite;
+        }
+
+        .wa-message::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            right: 25px;
+            border-width: 10px 8px 0 8px;
+            border-style: solid;
+            border-color: #0057b8 transparent transparent transparent;
+        }
+
+        .wa-button {
+            animation: pulseWA 2s infinite;
+        }
+
+        .banner-fade {
+            animation: fadeBanner .8s ease;
+        }
+
+        /* FAQ transition */
+        .faq-answer {
+            max-height: 0;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(45deg);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #0057b8, #00c7b5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800 antialiased">
+    <!-- BEGIN: Navbar -->
+    <nav class="sticky top-0 z-[999] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+        <div class="h-[72px] px-[18px] flex items-center justify-between max-w-7xl mx-auto">
+            <img alt="XL SATU Logo" class="h-[42px]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB56yaT4lOfebQmvywzRJ5P59gTkRzWq-LTLNU-iMa95R3QJ-K9o_Gy8LoXnzTlEgMHrcvouLfrQLKeVqVRAGPbTztgCTNu9kDeqrqnAuCw7LHeWfUyqpLuCzFfmTrMlcnr7qffyRwnC7KL0HAPt1y5-CoofpZX4nm7f-XDylePBiaKuFlpZgJ__7HURiTtY9oXJu0FalM16x1FTUQ0KM8WIV30p938lSLfYf30bhn36gZusPTK-kPz" />
+            <button aria-label="Toggle Menu"
+                class="w-[42px] h-[42px] border-none rounded-xl bg-slate-50 text-slate-700 flex items-center justify-center"
+                id="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div class="hidden bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] absolute w-full z-[998]" id="mobile-menu">
+        <a class="block py-4 px-5 text-slate-900 text-[13px] font-semibold border-b border-slate-100" href="#">Home</a>
+        <a class="block py-4 px-5 text-slate-900 text-[13px] font-semibold border-b border-slate-100" href="#">Promo
+            Paket FWA</a>
+        <a class="block py-4 px-5 text-slate-900 text-[13px] font-semibold border-b border-slate-100" href="#">HP
+            Sekeluarga</a>
+        <a class="block py-4 px-5 text-slate-900 text-[13px] font-semibold" href="#">Coverage Area</a>
+    </div>
+    <!-- END: Navbar -->
+    <main>
+        <!-- BEGIN: Hero Banner -->
+        <section class="w-full">
+            <img alt="Hero Banner" class="w-full block object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfWuKfa8QgBVof7cA3nEGSxvlebPWEVmRDCELEVcTIyae2mScEMNCWPp6KQu3ph6x4zstIAvoqP-xBKa8kRgMnYI6JfUfHHVz7cdTy4Kxm8ROtFoQnWd82wBiwnM_gFvcXkES0U7jpVqTlwpQuZnFBKC1j8hxN278SqrfdVylKKG5MJ32oOBQE7GV4di8i9ekJX8N6iFv4Y4Wus60R-p5q787yyC6AK_91KwX2Tdv-_pV9PmieT3Lq" />
+        </section>
+        <!-- END: Hero Banner -->
+        <!-- BEGIN: FWA Features -->
+        <section class="py-[60px] px-[20px] max-w-7xl mx-auto overflow-hidden">
+            <div class="text-center max-w-[700px] mx-auto mb-[50px]">
+                <span
+                    class="inline-block py-2 px-[18px] rounded-[30px] bg-cyan-50 text-sky-600 text-[11px] font-bold">KEUNGGULAN
+                    FWA</span>
+                <h2 class="text-[28px] font-extrabold text-slate-900 mt-[15px] leading-tight">Internet Praktis Tanpa
+                    Instalasi Kabel</h2>
+                <p class="text-[13px] text-slate-500 mt-[10px]">Aktivasi cepat, fleksibel digunakan, dan siap mendukung
+                    aktivitas digital keluarga.</p>
+            </div>
+            <!-- Interactive Hub -->
+            <div class="relative w-[340px] h-[340px] mx-auto">
+                <div
+                    class="ring1 absolute top-1/2 left-1/2 w-[240px] h-[240px] border-2 border-[rgba(0,199,181,0.15)] rounded-full -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <div
+                    class="ring2 absolute top-1/2 left-1/2 w-[290px] h-[290px] border-2 border-dashed border-[rgba(0,87,184,0.15)] rounded-full -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <div class="hub-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                    <img alt="Router" class="w-[140px] drop-shadow-[0_0_25px_rgba(0,199,181,0.45)]"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9FdOGffgrpl9UgMbEYQJ2JBSzYM0TXyo5p_5sBHHNSUcryyvzhqxL_2mGIVabV3ws61LJL81XijODBgBoZX1gewdyXFwp5-Dwemh7qcnf7-y8Hpbu-iLYZVYghS_ryQEhExlUbmY4nt8yGXWqnYBn6PqnnPWqLbyLMeQqNXpfTtCpu23ziyNePXjXYcRDc7xQTbAKSKp1WVXFfb_Mjf82fj6mkOjelM0eylv8JVIzwYeOc7oEvOXs" />
+                </div>
+                <!-- Nodes -->
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center top-[-20px] left-1/2 -translate-x-1/2 z-20">
+                    <i class="fas fa-wifi text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">Tanpa Kabel</span>
+                </div>
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center top-[70px] right-[-10px] z-20">
+                    <i class="fas fa-bolt text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">Aktivasi Cepat</span>
+                </div>
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center top-[210px] right-[-10px] z-20">
+                    <i class="fas fa-location-dot text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">Mudah Dipindah</span>
+                </div>
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center bottom-[-20px] left-1/2 -translate-x-1/2 z-20">
+                    <i class="fas fa-tv text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">Streaming HD</span>
+                </div>
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center top-[210px] left-[-10px] z-20">
+                    <i class="fas fa-gamepad text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">Gaming</span>
+                </div>
+                <div
+                    class="absolute w-[85px] p-[10px] rounded-[22px] bg-white shadow-[0_10px_30px_rgba(0,87,184,0.12)] text-center top-[70px] left-[-10px] z-20">
+                    <i class="fas fa-laptop text-[22px] text-sky-600"></i>
+                    <span class="block mt-2 text-[11px] font-semibold leading-tight">WFH Online</span>
+                </div>
+            </div>
+        </section>
+        <!-- END: FWA Features -->
+        <!-- BEGIN: Internet Packages -->
+        <section class="py-[70px] px-[18px] bg-brand-light">
+            <div class="text-center mb-[35px] max-w-3xl mx-auto">
+                <span class="inline-block py-2 px-4 rounded-[30px] bg-cyan-50 text-sky-600 text-[11px] font-bold">🔥
+                    PROMO PAY 3 GET 4</span>
+                <h2 class="text-[28px] font-extrabold text-slate-900 mt-[15px] mb-[10px]">Paket Internet XL SATU FWA
+                </h2>
+                <p class="text-[12px] text-slate-500 mb-6">Nikmati internet cepat tanpa instalasi kabel dengan promo
+                    spesial.</p>
+                <div class="w-full relative overflow-hidden rounded-xl">
+                    <img alt="Promo XL SATU FWA" class="w-full block object-cover banner-fade"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaI9cGb7YAPQbMI47wHhh2PXaUgtJpyFmqZOBmTz1kgker2Os9mkYPhZjPgHolrvXRc8GseR9TK9Xy0cNzLvd063wkOf-yrdu9jEGrXmVEUrYgrIbceCpZoBgRmlOJuUMdU-fAnHRKLUO6VH3rQ3wU-2fffaAUd6LU1lLfQEoWCIu26Oi67-Bb95t_Oo5TFe9z8f3SK7JjtR-7ZcziFZG2yxFB3Um4cUvO8HXBu81sYRHFELjTnbt5" />
+                    <div
+                        class="absolute inset-x-0 bottom-0 h-[40px] bg-gradient-to-t from-[rgba(0,199,181,0.15)] to-transparent pointer-events-none">
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-md mx-auto sm:max-w-4xl sm:grid sm:grid-cols-2 sm:gap-6">
+                <!-- Package 1 -->
+                <div class="relative bg-white rounded-[28px] p-[28px_22px] mb-[25px] shadow-[0_15px_40px_rgba(0,87,184,0.08)] overflow-hidden transition-all duration-350 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(0,87,184,0.12)]">
+                    <div
+                        class="absolute top-[15px] right-[15px] bg-brand-blue text-white text-[10px] font-bold py-1.5 px-3 rounded-[30px]">
+                        PROMO TERLARIS</div>
+                    <div
+                        class="w-[95px] h-[95px] rounded-full bg-gradient-to-br from-[#0057b8] to-[#00c7b5] text-white flex flex-col justify-center items-center text-[28px] font-extrabold mb-[15px] shadow-[0_0_25px_rgba(0,199,181,0.25)]">
+                        50<span class="text-[11px] font-medium leading-none">Mbps</span>
+                    </div>
+                    <h3 class="text-[24px] font-extrabold text-slate-900 mb-3">SPARK SMART</h3>
+                    <div class="bg-[#f1faff] p-3 rounded-[14px] text-[11px] font-semibold text-sky-700 mb-[15px]">🎬
+                        Bonus Vidio Lite + Catchplay+ 3 Bulan</div>
+                    <ul class="mb-[18px]">
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Cocok 3-5 perangkat</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Streaming HD lancar</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Meeting Online stabil
+                        </li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Internet Unlimited</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Gratis Biaya Pemasangan
+                        </li>
+                    </ul>
+                    <div class="mt-[10px] pt-[15px] border-t border-dashed border-blue-100">
+                        <div class="text-[12px] text-slate-400 line-through">Rp962.000</div>
+                        <div class="text-[34px] font-extrabold text-brand-blue mt-1 leading-none">Rp721.500<span
+                                class="text-[16px] font-bold">/ 4 Bulan</span></div>
+                        <div class="text-[11px] text-slate-500 mt-[5px]">Setara dengan Rp180.375/bulan</div>
+                    </div>
+                    <button
+                        class="block w-full mt-5 text-center p-[15px] rounded-[18px] bg-gradient-to-br from-[#0057b8] to-[#00c7b5] text-white text-[13px] font-bold shadow-[0_10px_25px_rgba(0,199,181,0.25)] transition-transform duration-300 hover:scale-[1.02]"
+                        onclick="orderPackage('SPARK SMART 50 Mbps', 'Rp721.500 / 4 Bulan')">
+                        Langganan Sekarang
+                    </button>
+                </div>
+                <!-- Package 2 -->
+                <div class="relative bg-white rounded-[28px] p-[28px_22px] mb-[25px] shadow-[0_15px_40px_rgba(0,87,184,0.08)] overflow-hidden transition-all duration-350 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(0,87,184,0.12)] border-2 border-[#00c7b5]">
+                    <div
+                        class="absolute top-[15px] right-[15px] bg-[#00b894] text-white text-[10px] font-bold py-1.5 px-3 rounded-[30px]">
+                        PALING POPULER</div>
+                    <div
+                        class="w-[95px] h-[95px] rounded-full bg-gradient-to-br from-[#00b894] to-[#00d2d3] text-white flex flex-col justify-center items-center text-[28px] font-extrabold mb-[15px] shadow-[0_0_25px_rgba(0,199,181,0.25)]">
+                        100<span class="text-[11px] font-medium leading-none">Mbps</span>
+                    </div>
+                    <h3 class="text-[24px] font-extrabold text-slate-900 mb-3">SPARK FAMILY</h3>
+                    <div class="bg-[#f1faff] p-3 rounded-[14px] text-[11px] font-semibold text-sky-700 mb-[15px]">🎬
+                        Bonus Vidio Lite + Catchplay+ 3 Bulan</div>
+                    <ul class="mb-[18px]">
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Cocok 5-10 perangkat
+                        </li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Streaming Full HD &amp;
+                            4K</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Gaming lebih stabil</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Internet Unlimited</li>
+                        <li class="text-[12px] py-2 text-slate-700 border-b border-slate-100">✔ Gratis Biaya Pemasangan
+                        </li>
+                    </ul>
+                    <div class="mt-[10px] pt-[15px] border-t border-dashed border-blue-100">
+                        <div class="text-[12px] text-slate-400 line-through">Rp1.169.200</div>
+                        <div class="text-[34px] font-extrabold text-brand-blue mt-1 leading-none">Rp876.900<span
+                                class="text-[16px] font-bold"> / Bulan</span></div>
+                        <div class="text-[11px] text-slate-500 mt-[5px]">Setara dengan Rp219.225/bulan</div>
+                    </div>
+                    <button
+                        class="block w-full mt-5 text-center p-[15px] rounded-[18px] bg-gradient-to-br from-[#0057b8] to-[#00c7b5] text-white text-[13px] font-bold shadow-[0_10px_25px_rgba(0,199,181,0.25)] transition-transform duration-300 hover:scale-[1.02]"
+                        onclick="orderPackage('SPARK FAMILY 100 Mbps', 'Rp876.900 / Bulan')">
+                        Langganan Sekarang
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- END: Internet Packages -->
+        <!-- BEGIN: Steps Section -->
+        <section class="py-[70px] px-[20px] bg-white max-w-7xl mx-auto">
+            <div class="text-center mb-[35px]">
+                <span class="inline-block py-2 px-4 rounded-[30px] bg-cyan-50 text-sky-600 text-[11px] font-bold">⚡
+                    AKTIVASI CEPAT</span>
+                <h2 class="text-[28px] font-extrabold text-slate-900 mt-[15px] mb-[10px]">Cara Kerja XL SATU FWA</h2>
+                <p class="text-[12px] text-slate-500">Internet rumah modern tanpa instalasi kabel yang rumit.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-[18px]">
+                <div
+                    class="relative bg-white rounded-[24px] p-6 text-center shadow-[0_15px_40px_rgba(0,87,184,0.08)] transition-transform duration-300 hover:-translate-y-1">
+                    <div
+                        class="absolute top-3 right-3 w-7 h-7 rounded-full bg-brand-blue text-white text-[12px] flex items-center justify-center font-bold">
+                        1</div>
+                    <div class="text-[40px] mb-3">📦</div>
+                    <h3 class="text-[18px] font-bold mb-2.5 text-slate-900">Pilih Paket</h3>
+                    <p class="text-[12px] leading-[1.8] text-slate-500">Pilih paket internet sesuai kebutuhan rumah dan
+                        keluarga Anda.</p>
+                </div>
+                <div
+                    class="relative bg-white rounded-[24px] p-6 text-center shadow-[0_15px_40px_rgba(0,87,184,0.08)] transition-transform duration-300 hover:-translate-y-1">
+                    <div
+                        class="absolute top-3 right-3 w-7 h-7 rounded-full bg-brand-blue text-white text-[12px] flex items-center justify-center font-bold">
+                        2</div>
+                    <div class="text-[40px] mb-3">📡</div>
+                    <h3 class="text-[18px] font-bold mb-2.5 text-slate-900">Aktivasi Modem</h3>
+                    <p class="text-[12px] leading-[1.8] text-slate-500">Pasang modem FWA dan nikmati aktivasi cepat
+                        tanpa tarik kabel fiber.</p>
+                </div>
+                <div
+                    class="relative bg-white rounded-[24px] p-6 text-center shadow-[0_15px_40px_rgba(0,87,184,0.08)] transition-transform duration-300 hover:-translate-y-1">
+                    <div
+                        class="absolute top-3 right-3 w-7 h-7 rounded-full bg-brand-blue text-white text-[12px] flex items-center justify-center font-bold">
+                        3</div>
+                    <div class="text-[40px] mb-3">🚀</div>
+                    <h3 class="text-[18px] font-bold mb-2.5 text-slate-900">Internet Langsung Aktif</h3>
+                    <p class="text-[12px] leading-[1.8] text-slate-500">Streaming, gaming, meeting online dan aktivitas
+                        digital langsung lancar.</p>
+                </div>
+            </div>
+        </section>
+        <!-- END: Steps Section -->
+        <!-- BEGIN: Users Section -->
+        <section class="py-[80px] px-[20px] bg-gradient-to-b from-[#f8fbff] to-white max-w-7xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-[38px] font-black leading-tight text-brand-dark mb-4">
+                    Internet Fleksibel
+                    <span class="block text-gradient drop-shadow-[0_0_10px_rgba(0,199,181,0.4)]">Untuk Semua
+                        Kebutuhan</span>
+                </h2>
+                <p class="text-slate-500 text-sm max-w-lg mx-auto">Solusi internet rumah modern untuk keluarga, pekerja
+                    remote, UMKM dan area yang belum terjangkau fiber.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-[15px]">
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">🏠</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">Rumah Baru</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Belum tersedia jaringan fiber di area Anda.</p>
+                </div>
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">💻</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">WFH Online</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Meeting online, pekerjaan dan sekolah tetap
+                        lancar.</p>
+                </div>
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">🎮</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">Gamer</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Koneksi stabil untuk bermain game online.</p>
+                </div>
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">🎬</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">Pecinta Streaming</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Nonton film dan serial favorit tanpa buffering.
+                    </p>
+                </div>
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">🏪</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">UMKM</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Mendukung operasional toko dan usaha kecil.</p>
+                </div>
+                <div
+                    class="bg-white p-5 rounded-[22px] text-center shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,87,184,0.12)]">
+                    <div class="text-[34px] mb-3">📍</div>
+                    <h3 class="text-[14px] font-bold mb-2 text-slate-900">Area Non Fiber</h3>
+                    <p class="text-[11px] leading-[1.7] text-slate-500">Solusi internet praktis untuk lokasi tertentu.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- END: Users Section -->
+        <!-- BEGIN: FAQ Section -->
+        <section class="py-[80px] px-[20px] bg-brand-light">
+            <div class="text-center max-w-[700px] mx-auto mb-10">
+                <span
+                    class="inline-block py-2 px-[18px] rounded-[30px] bg-cyan-50 text-sky-600 text-[11px] font-bold">FWA
+                    FAQ</span>
+                <h2 class="mt-[15px] text-[34px] font-black leading-tight text-brand-dark">
+                    Masih Ada Pertanyaan?
+                    <span class="block mt-2 text-gradient drop-shadow-[0_0_15px_rgba(0,199,181,0.35)]">Kami Siap
+                        Membantu</span>
+                </h2>
+                <p class="mt-3 text-[12px] text-slate-500">Temukan jawaban mengenai layanan internet rumah XL SATU FWA.
+                </p>
+            </div>
+            <div class="max-w-[850px] mx-auto">
+                <!-- FAQ Items -->
+                <div
+                    class="faq-item active bg-white rounded-[22px] mb-3 overflow-hidden shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300">
+                    <button
+                        class="faq-question w-full p-[18px] bg-transparent border-none flex justify-between items-center cursor-pointer text-[12px] font-bold text-slate-900 text-left">
+                        <span>Apa itu XL SATU FWA?</span>
+                        <i class="fas fa-plus text-sky-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <p class="px-[18px] pb-[18px] text-[11px] leading-[1.8] text-slate-500">XL SATU FWA adalah
+                            layanan internet rumah berbasis Fixed Wireless Access yang menggunakan jaringan nirkabel
+                            tanpa instalasi kabel fiber ke rumah pelanggan.</p>
+                    </div>
+                </div>
+                <div
+                    class="faq-item bg-white rounded-[22px] mb-3 overflow-hidden shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300">
+                    <button
+                        class="faq-question w-full p-[18px] bg-transparent border-none flex justify-between items-center cursor-pointer text-[12px] font-bold text-slate-900 text-left">
+                        <span>Apakah perlu instalasi kabel?</span>
+                        <i class="fas fa-plus text-sky-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <p class="px-[18px] pb-[18px] text-[11px] leading-[1.8] text-slate-500">Tidak. XL SATU FWA
+                            menggunakan modem khusus sehingga proses aktivasi lebih praktis tanpa penarikan kabel fiber.
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="faq-item bg-white rounded-[22px] mb-3 overflow-hidden shadow-[0_10px_30px_rgba(0,87,184,0.08)] transition-all duration-300">
+                    <button
+                        class="faq-question w-full p-[18px] bg-transparent border-none flex justify-between items-center cursor-pointer text-[12px] font-bold text-slate-900 text-left">
+                        <span>Berapa lama proses aktivasi?</span>
+                        <i class="fas fa-plus text-sky-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <p class="px-[18px] pb-[18px] text-[11px] leading-[1.8] text-slate-500">Aktivasi biasanya lebih
+                            cepat dibanding layanan fiber karena tidak memerlukan instalasi kabel ke rumah pelanggan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- FAQ CTA -->
+            <div
+                class="mt-[35px] p-[30px] rounded-[28px] text-center bg-gradient-to-br from-[#0057b8] to-[#00c7b5] text-white shadow-[0_20px_60px_rgba(0,87,184,0.18)] max-w-[850px] mx-auto">
+                <h3 class="text-[22px] font-extrabold mb-2.5">Belum Menemukan Jawaban?</h3>
+                <p class="text-[12px] opacity-95 mb-5">Tim kami siap membantu menjawab pertanyaan Anda.</p>
+                <a class="inline-block py-3.5 px-7 rounded-[50px] bg-white text-brand-blue no-underline text-[12px] font-bold"
+                    href="https://wa.me/6287781888344" target="_blank">
+                    💬 Hubungi Admin
+                </a>
+            </div>
+        </section>
+        <!-- END: FAQ Section -->
+        <!-- BEGIN: Coverage Area -->
+        <section class="py-[70px] px-5 bg-white max-w-7xl mx-auto md:py-[50px] md:px-[15px]">
+            <h2 class="text-center text-[38px] md:text-[28px] font-extrabold text-brand-blue mb-3">Kami Melayani Area XL
+                SATU Medan</h2>
+            <p class="text-center text-slate-500 text-[16px] md:text-[14px] md:leading-[1.8] mb-[35px]">Kota Medan •
+                Medan Deli Serdang</p>
+            <div class="max-w-[1200px] mx-auto">
+                <img alt="Area XL SATU Medan"
+                    class="w-full block rounded-[28px] md:rounded-[18px] shadow-[0_20px_50px_rgba(0,87,184,0.15)] transition-all duration-350 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_rgba(0,87,184,0.25)]"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk5LMz38D_aLFf4NeazQ2YPJW_MGD1Vma8HCYdjFjXImpBEz3EIhiopGmybdneNP8ZxB1l_mMj90uFVt04d6lwXsM6sA1pkZVGcKK_hKnt-GvlIO_NBMWef-ccby6o5H-S_tQUno1lox9ZONIjeUhPNNiOH_imE4W2KFZwGvIh09rDHyGsumtAE4CvrpThwijdH7_bS5X8sZdz7ziRrUDH4419L0W74vi4wrnE1EdZnI_xDXQLi9yo" />
+            </div>
+        </section>
+        <!-- END: Coverage Area -->
+    </main>
+    <!-- BEGIN: Footer -->
+    <footer>
+        <div class="bg-white py-[70px] px-[30px] max-w-7xl mx-auto">
+            <img alt="XL SATU Logo" class="w-[150px] block mb-[50px] drop-shadow-[0_0_10px_rgba(0,199,181,0.35)]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7jpdXVMCP61JzMYJezma1gfLeokWmRXkrO7gqWfLCAjZdmyiu-NOLFZkPRDm_WFvLTh0Lj46h4QKjn9-tNA3Xc7g6BnwuXH11qzvYgyDu2BXN7Iqc59fYbC3mMoLsZGNEHoXfaeVZUtgO51oUd9vdt6COr1tDPiqntpm3twrc_xk8BJNiHwmagTfNLrzaQ7pwc51ZPLNOpXSE-7H_TiAerPAGMDfuBzrhRJ6xDEjaYWyU2D-sr8t1" />
+            <h2 class="text-[24px] font-extrabold leading-[1.3] text-brand-blue mb-[25px]">Internet Rumah Cepat untuk
+                Keluarga Modern</h2>
+            <p class="text-[12px] leading-loose text-slate-500 max-w-[700px]">Nikmati koneksi fiber optic stabil,
+                internet unlimited, dan layanan pelanggan yang siap membantu kebutuhan digital keluarga Anda.</p>
+            <div class="flex gap-[18px] mt-10">
+                <a class="w-[58px] h-[58px] rounded-full bg-slate-100 flex items-center justify-center text-[22px] text-brand-blue transition-all duration-300 hover:-translate-y-1 hover:bg-brand-blue hover:text-white"
+                    href="https://wa.me/6287781888344" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a class="w-[58px] h-[58px] rounded-full bg-slate-100 flex items-center justify-center text-[22px] text-brand-blue transition-all duration-300 hover:-translate-y-1 hover:bg-brand-blue hover:text-white"
+                    href="#" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a class="w-[58px] h-[58px] rounded-full bg-slate-100 flex items-center justify-center text-[22px] text-brand-blue transition-all duration-300 hover:-translate-y-1 hover:bg-brand-blue hover:text-white"
+                    href="#" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+        <div class="bg-[#02153f] text-center py-[70px] px-[25px]">
+            <h3 class="text-[14px] font-semibold text-white mb-[35px]">© 2026 XL SATU Sales Marketing</h3>
+            <p class="text-[11px] leading-loose text-slate-400 max-w-[700px] mx-auto">Website ini dikelola oleh mitra
+                pemasaran independen XL SATU dan bukan merupakan website resmi perusahaan.</p>
+            <p class="text-[11px] leading-loose text-slate-500 max-w-[700px] mx-auto mt-[25px]">© 2026 XL SATU Marketing
+                Partner. Seluruh hak cipta dan merek dagang merupakan milik pemegang hak terkait.</p>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+    <!-- BEGIN: Floating WhatsApp -->
+    <div class="fixed right-5 bottom-5 z-[9999] flex flex-col items-end">
+        <div class="wa-message bg-brand-blue text-white p-[12px_15px] rounded-[18px] mb-3 text-[11px] leading-[1.6] max-w-[220px] shadow-[0_10px_35px_rgba(0,87,184,0.25)] relative"
+            id="waMessage">
+            <button class="absolute top-1.5 right-2 bg-transparent border-none text-white cursor-pointer text-[14px]"
+                onclick="closeWA()">×</button>
+            <div class="pr-[15px]">🚀 Promo XL SATU FWA<br />Aktivasi Cepat &amp; Gratis Konsultasi</div>
+        </div>
+        <a class="wa-button w-[70px] h-[70px] rounded-full bg-gradient-to-br from-[#0057b8] to-[#00c7b5] flex items-center justify-center text-white text-[34px] shadow-[0_0_25px_rgba(0,199,181,0.5),0_0_60px_rgba(0,87,184,0.25)] transition-transform duration-300 hover:scale-105"
+            href="https://wa.me/6287781888344" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+    <!-- END: Floating WhatsApp -->
+    <!-- Scripts -->
+    <script data-purpose="interactions">
+        // Menu Toggle
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.onclick = () => menu.classList.toggle('hidden');
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-question');
+            btn.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // Close WA Bubble
+        function closeWA() {
+            document.getElementById('waMessage').style.display = 'none';
+        }
+
+        // Order Package via WA
+        function orderPackage(paket, harga) {
+            const pesan = `Halo Admin XL SATU,\n\nSaya tertarik berlangganan:\n\n📦 Paket : ${paket}\n💰 Harga : ${harga}\n\nMohon informasi proses pendaftaran.\n\nTerima kasih.`;
+            window.open("https://wa.me/6287781888344?text=" + encodeURIComponent(pesan), "_blank");
+        }
+    </script>
+</body>
+
+</html>

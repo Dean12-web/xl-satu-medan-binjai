@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Promo - XL SATU</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'xl-blue': '#164E9C',
+                        'xl-green': '#19994C',
+                        'xl-dark-blue': '#103975',
+                        'xl-light-bg': '#F5F6F8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style data-purpose="custom-styles">
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .text-xl-blue {
+            color: #164391;
+        }
+
+        .bg-xl-blue {
+            background-color: #164391;
+        }
+
+        .text-xl-green {
+            color: #00A388;
+        }
+
+        .bg-xl-green {
+            background-color: #00A388;
+        }
+
+        .bg-light-blue-gradient {
+            background: linear-gradient(180deg, #E6F3FF 0%, #FFFFFF 100%);
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-header-gradient {
+            background: linear-gradient(180deg, #D4EDFA 0%, #FFFFFF 100%);
+        }
+
+        .hero-bg {
+            background-color: #164E9C;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+    <!-- BEGIN: Top Bar -->
+    <div class="bg-xl-blue text-white text-xs py-2 px-4 flex justify-between items-center relative z-50">
+        <div class="flex-1 flex justify-center items-center space-x-2">
+            <span>Mau berlangganan XL SATU?</span>
+            <button
+                class="bg-white text-xl-blue px-3 py-1 rounded-full font-semibold hover:bg-gray-100 transition">Daftar
+                Sekarang!</button>
+        </div>
+        <div class="absolute right-4 text-white">
+            <svg class="w-4 h-4 cursor-pointer" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+        </div>
+    </div>
+    <!-- END: Top Bar -->
+    <!-- BEGIN: MainHeader -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm">
+        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <!-- Logo Placeholder -->
+                <div class="text-xl-blue font-bold text-2xl flex items-center">
+                    <span class="text-xl-green text-3xl mr-1">X</span>satu
+                </div>
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Paket</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Promo</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bantuan</a>
+                <a class="text-gray-700 hover:text-xl-blue" href="#">Bayar Tagihan</a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Kuota HP Sekeluarga
+                </a>
+                <a class="text-gray-700 hover:text-xl-blue flex items-center" href="#">
+                    Blog &amp; Artikel
+                </a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <!-- END: MainNavigation -->
+    <!-- BEGIN: Hero Section -->
+    <section class="hero-bg text-white py-12 px-4 md:px-8 relative min-h-[300px]">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center h-full">
+            <!-- Text Content -->
+            <div class="w-full md:w-1/2 z-10 pt-8 md:pt-0">
+                <div class="text-sm uppercase tracking-wider mb-2 font-semibold text-gray-300">
+                    <a class="hover:text-white" href="#">HOME</a> / <span>PROMO</span>
+                </div>
+                <h1 class="text-5xl font-bold mb-4">Promo</h1>
+            </div>
+            <!-- Hero Image Placeholder (Simulating the lady with floating icons) -->
+            <div class="w-full md:w-1/2 relative mt-8 md:mt-0 flex justify-end items-end h-full">
+                <!-- Assuming the lady image is part of the background or a separate asset. Using a placeholder container. -->
+                <div class="relative w-64 h-64 bg-xl-dark-blue rounded-full overflow-hidden border-4 border-white/20">
+                    <!-- Replace src with actual image if available -->
+                    <img alt="Promo Hero" class="object-cover w-full h-full opacity-50"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpVNUo4tFbjjYeTl2uVUMOn-5ZjHwsUBaj9NLhG5O7N2JDMcncAyOT6rwzYwDB0gORyxM6yGKnlU93EgLUiOVd5ZnMoo4iSodDSLbjczG3wprV_ch16-Iavg7QACgcm4u3ZPH7-X15_XpC8nJ5Iw0Fa-N9TM-AGBDNit7V3ukDw5tQ24lMaX07OisnKb-HTJIwdzDzuX1JTx84w1XTS-9YS_m7TR_lZdI1GmDGB1PG34qp4iWSgG00" />
+                </div>
+                <!-- Floating Icons (Simulated) -->
+                <div class="floating-icon top-4 left-1/4 w-12 h-12 text-xl-blue">
+                    <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="floating-icon bottom-1/4 right-0 w-10 h-10 text-xl-green">
+                    <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M21 11h-3V8a1 1 0 0 0-1-1h-2V5a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-2h2a1 1 0 0 0 1-1v-3h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: Hero Section -->
+    <!-- BEGIN: Promo Cards Section -->
+    <main class="py-16 px-4 md:px-8 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Card 1 -->
+            <a class="group block" href="#">
+                <div
+                    class="rounded-2xl overflow-hidden shadow-sm group-hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+                    <div class="h-48 bg-gray-200 relative">
+                        <img alt="Tokopedia Promo" class="object-cover w-full h-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXmeR3vBn5CZfVFWZVeC7M_CjWwWUT2xdG1DN4d3UIry_u8FHQ7N2drBKGFazjqPUWeA0bG4KEcYh1EcNvcRqYArlYu0B7dkHS3sTz4OeFjArwYERcFimtwlWnUFmYN_QpN37iY_HMf-gP6QuTpKJUURzOOpQdjr5KqrTeNxVTIpvqwbJ4d5BkgrZK1DXloBFdtWlVPqe-HZtdar3Qe7V3HQph8GS0-UMkI-EGy574QO8m4GYy9J_d" />
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3
+                            class="text-xl font-bold text-gray-900 leading-tight group-hover:text-xl-blue transition-colors">
+                            Bayar Tagihan XL SATU di Tokopedia, Nikmati Diskon hingga Rp50 Ribu!</h3>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 2 -->
+            <a class="group block" href="#">
+                <div
+                    class="rounded-2xl overflow-hidden shadow-sm group-hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+                    <div class="h-48 bg-gray-200 relative">
+                        <img alt="Juli Promo" class="object-cover w-full h-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIOron6KlNHVWQPaHbpMta-P2pHpikGHN_NBCH3wKAQvTHw98yuJZXecQ2FnYAYrv_Vo4gOtOdKKggqcsObMoIOqcT_7iTgkcvW1SOKUfU_hlm37lR5FJ10NstCEZ4AqHUvvwRtW7Tzem-zW6Y3XvnXcumbDHLxc7w8Fy3g-RMn5BYEYVWQ7bA7qJ7d9EWRjhThyAUTREdo1gYv_0uLPwKN7J1NSVoBk7T52zhfxhu2XdBaFUhO_Jr" />
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3
+                            class="text-xl font-bold text-gray-900 leading-tight group-hover:text-xl-blue transition-colors">
+                            Bayar Tagihan Makin Hemat, Internetan Tetap Nikmat</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+    <!-- END: Promo Cards Section -->
+    <!-- BEGIN: Help & Contact Section (Simplified for visual match) -->
+    <section class="bg-xl-light-bg py-16 px-4 md:px-8 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Bantuan -->
+            <div>
+                <h2 class="text-2xl font-bold mb-6 text-gray-900">Bantuan</h2>
+                <ul class="space-y-4">
+                    <li class="border-b border-gray-300 pb-3"><a
+                            class="flex justify-between items-center hover:text-xl-blue text-gray-700" href="#">Apa itu
+                            XL SATU? <span class="text-xl-blue font-bold">&gt;</span></a></li>
+                    <li class="border-b border-gray-300 pb-3"><a
+                            class="flex justify-between items-center hover:text-xl-blue text-gray-700" href="#">Apakah
+                            merger antara XL dan Smartfren akan berdampak pada pelanggan... <span
+                                class="text-xl-blue font-bold">&gt;</span></a></li>
+                    <li class="border-b border-gray-300 pb-3"><a
+                            class="flex justify-between items-center hover:text-xl-blue text-gray-700" href="#">Siapa
+                            saja yang dapat berlangganan XL SATU? <span class="text-xl-blue font-bold">&gt;</span></a>
+                    </li>
+                    <li class="border-b border-gray-300 pb-3"><a
+                            class="flex justify-between items-center hover:text-xl-blue text-gray-700" href="#">Apakah
+                            saya harus punya nomor XL prabayar atau XL Prioritas... <span
+                                class="text-xl-blue font-bold">&gt;</span></a></li>
+                </ul>
+                <a class="inline-block mt-6 text-xl-blue font-bold hover:underline" href="#">Lihat Pertanyaan
+                    Lainnya!</a>
+            </div>
+            <!-- Hubungi Kami -->
+            <div>
+                <h2 class="text-2xl font-bold mb-6 text-gray-900">Hubungi Kami</h2>
+                <div class="bg-blue-50 rounded-2xl p-6 md:p-8 relative overflow-hidden">
+                    <div class="relative z-10 w-full md:w-2/3">
+                        <h3 class="text-2xl font-bold text-xl-blue mb-2">Butuh Bantuan?</h3>
+                        <p class="text-gray-600 mb-6 text-sm">Kami siap bantu kamu untuk semua informasi tentang XL SATU
+                        </p>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 mb-1">Sales Center</p>
+                                <div class="flex gap-2">
+                                    <button
+                                        class="bg-[#1EB882] text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2"><svg
+                                            class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20">
+                                            <path
+                                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z">
+                                            </path>
+                                        </svg> 8200</button>
+                                    <button
+                                        class="bg-[#4285F4] text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2"><svg
+                                            class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20">
+                                            <path
+                                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z">
+                                            </path>
+                                        </svg> 0818 123 820</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Customer Service Image Placeholder -->
+                    <div class="absolute bottom-0 right-0 w-1/3 h-full hidden md:block">
+                        <img alt="Customer Service" class="object-cover object-bottom w-full h-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL6euix80U54U3hDALzkQEv7FUh3ixlrnxU7XO3CtYgRollscDOpyDRf4QBig_jmqCr8GEHCgfp8Zn4L3cgSGVVaBRYXkMwqnrMsKlFZ1d8YSjlCGnxGOx_dhRraT9UQGM8Ofrp43K8F5qdPKwprizJ3noTGO1czV8qPNpQBBxgq2HRBM0RT67XJaX3nFZ4ULWhv4oIvweKSDSJT1ncOEUfDnd-F1DEq9I3P13_NKlZyYuEgFIFlr2" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: Help & Contact Section -->
+    <!-- BEGIN: Footer -->
+    <footer class="bg-xl-blue text-white py-6 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="mb-4 md:mb-0">
+                Copyright © 2012-2026 XL SATU
+            </div>
+            <div class="flex gap-6 mb-4 md:mb-0">
+                <a class="hover:underline" href="#">Syarat &amp; Ketentuan</a>
+                <a class="hover:underline" href="#">Kebijakan &amp; Privasi</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                        </path>
+                    </svg></a>
+                <a class="hover:text-gray-300" href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z">
+                        </path>
+                    </svg></a>
+                <span class="font-bold">xlsatu</span>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+</body>
+
+</html>
