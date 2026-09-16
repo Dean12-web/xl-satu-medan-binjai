@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Wifi, Radio, Zap, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { Radio, Zap, CheckCircle2 } from 'lucide-react';
 import { fiberPackages, fwaPackages, packageBenefits } from '../data';
 import PricingCard from '../components/PricingCard';
 
-export default function PaketPage({ onSelectPlan, onNavigate }) {
+export default function PaketPage({ onSelectPlan }) {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'fiber', 'fwa'
 
   const displayPackages = 

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin CMS - XL SATU Medan & Binjai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #164391;
+      --primary-hover: #0e306e;
+      --accent: #00a3e0;
+      --bg: #f4f6fa;
+      --card-bg: #ffffff;
+      --sidebar-bg: #0f172a;
+      --sidebar-hover: #1e293b;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 270px;
+      background: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .sidebar-brand {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 10px rgba(0,163,224,0.3);
+    }
+    .brand-info h3 { font-size: 1rem; font-weight: 700; color: #fff; }
+    .brand-info span { font-size: 0.72rem; color: #94a3b8; }
+    .sidebar-nav {
+      padding: 20px 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #64748b;
+      padding: 12px 12px 6px;
+      font-weight: 700;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+    .nav-item.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(22,67,145,0.4); }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .sidebar-footer {
+      padding: 16px 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* Main Container */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .header {
+      background: #fff;
+      height: 70px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .header-title h2 { font-size: 1.25rem; font-weight: 700; }
+    .header-title p { font-size: 0.78rem; color: var(--muted); }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .content { padding: 28px; flex: 1; }
+
+    /* Cards & Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-info span { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+    .stat-info h3 { margin: 6px 0 4px; font-size: 1.6rem; font-weight: 800; }
+    .stat-info small.success { color: var(--success); font-size: 0.72rem; font-weight: 600; }
+    .stat-info small.warning { color: var(--warning); font-size: 0.72rem; font-weight: 600; }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .icon-blue { background: rgba(22,67,145,0.1); color: var(--primary); }
+    .icon-cyan { background: rgba(0,163,224,0.1); color: var(--accent); }
+    .icon-green { background: rgba(16,185,129,0.1); color: var(--success); }
+    .icon-amber { background: rgba(245,158,11,0.1); color: var(--warning); }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card-header h3 { font-size: 1.05rem; font-weight: 700; }
+    .card-body { padding: 24px; }
+
+    /* Tables */
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+    th {
+      background: #f8fafc;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    tr:hover td { background: #fafbfc; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .badge-primary { background: #dbeafe; color: #1e40af; }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-sm { padding: 5px 10px; font-size: 0.78rem; border-radius: 6px; }
+
+    /* Forms */
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+    /* SERP Preview */
+    .serp-card {
+      background: #fff;
+      border: 1px solid #dfe1e5;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 1px 6px rgba(32,33,36,0.08);
+      margin-top: 10px;
+    }
+    .serp-url { font-size: 0.76rem; color: #202124; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .serp-title { color: #1a0dab; font-size: 1.1rem; font-weight: 500; cursor: pointer; margin-bottom: 4px; }
+    .serp-desc { font-size: 0.82rem; color: #4d5156; line-height: 1.4; }
+
+    /* Tab switching helper */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-badge">XL</div>
+      <div class="brand-info">
+        <h3>XL SATU CMS</h3>
+        <span>Medan & Binjai Portal</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Menu Operasional</div>
+      <button class="nav-item active" onclick="switchTab('dashboard')">
+        📊 Dashboard Utama
+      </button>
+      <button class="nav-item" onclick="switchTab('packages')">
+        📦 Kelola Paket Internet
+      </button>
+      <button class="nav-item" onclick="switchTab('leads')">
+        👥 Data Leads & Order
+        <span class="nav-badge" id="pendingCount">6</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('seo')">
+        🎯 Pengaturan SEO & Meta
+      </button>
+      <button class="nav-item" onclick="switchTab('settings')">
+        ⚙️ Kontak & Kantor
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" class="back-btn">
+        ⬅️ Lihat Website Publik
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Container -->
+  <main class="main">
+    <header class="header">
+      <div class="header-title">
+        <h2 id="headerTitle">Dashboard Utama</h2>
+        <p id="headerSubtitle">Ringkasan performa leads dan paket internet XL SATU Medan & Binjai</p>
+      </div>
+      <div class="user-pill">
+        <div class="user-avatar">AD</div>
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 600;">Admin Sales Sumut</div>
+          <div style="font-size: 0.68rem; color: var(--primary); font-weight: 700;">SUPER ADMIN</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- TAB 1: DASHBOARD -->
+      <div id="tab-dashboard" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <span>Total Leads Masuk</span>
+              <h3>48</h3>
+              <small class="success">+18% minggu ini</small>
+            </div>
+            <div class="stat-icon icon-blue">👥</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <span>Pending Follow-up</span>
+              <h3>6</h3>
+              <small class="warning">Perlu konfirmasi sales</small>
+            </div>
+            <div class="stat-icon icon-amber">⏳</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <span>Paket Live</span>
+              <h3>8</h3>
+              <small class="success">Fiber & FWA Aktif</small>
+            </div>
+            <div class="stat-icon icon-cyan">📦</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <span>Titik ODP Jaringan</span>
+              <h3>142</h3>
+              <small class="success">Medan, Binjai & Deli Serdang</small>
+            </div>
+            <div class="stat-icon icon-green">📡</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Leads & Order Paling Baru</h3>
+            <button class="btn btn-sm btn-secondary" onclick="switchTab('leads')">Buka Semua Leads ➡️</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Waktu</th>
+                  <th>Nama Calon Pelanggan</th>
+                  <th>Kota / Kecamatan</th>
+                  <th>Paket</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardLeadsTable">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: PACKAGES -->
+      <div id="tab-packages" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Katalog Paket Internet XL SATU</h3>
+            <button class="btn btn-primary btn-sm" onclick="alert('Form tambah paket dapat diintegrasikan ke endpoint REST API /api/v1/admin/packages')">+ Tambah Paket</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tipe</th>
+                  <th>Nama Paket</th>
+                  <th>Kecepatan</th>
+                  <th>Harga Promo</th>
+                  <th>Benefit Kuota HP</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge badge-primary">Fiber</span></td>
+                  <td><strong>Fiber 250 Mbps</strong></td>
+                  <td>250 Mbps Booster</td>
+                  <td><strong style="color: var(--primary);">Rp229.000/bln</strong></td>
+                  <td>25 GB Kuota HP Keluarga</td>
+                  <td><span class="badge badge-success">Aktif</span></td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-primary">Fiber</span></td>
+                  <td><strong>Fiber 350 Mbps</strong></td>
+                  <td>350 Mbps Booster</td>
+                  <td><strong style="color: var(--primary);">Rp279.000/bln</strong></td>
+                  <td>25 GB Kuota HP Keluarga</td>
+                  <td><span class="badge badge-success">Aktif</span></td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-primary">Fiber</span></td>
+                  <td><strong>Fiber 400 Mbps</strong></td>
+                  <td>400 Mbps Booster</td>
+                  <td><strong style="color: var(--primary);">Rp349.000/bln</strong></td>
+                  <td>50 GB Kuota HP Keluarga</td>
+                  <td><span class="badge badge-success">Aktif</span></td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-warning">FWA</span></td>
+                  <td><strong>XL SATU FWA 100 GB</strong></td>
+                  <td>Up to 100 Mbps</td>
+                  <td><strong style="color: var(--primary);">Rp149.000/bln</strong></td>
+                  <td>Router Nirkabel Plug & Play</td>
+                  <td><span class="badge badge-success">Aktif</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: LEADS -->
+      <div id="tab-leads" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Database Leads & Pemohon Pasang Baru</h3>
+            <button class="btn btn-secondary btn-sm" onclick="alert('Export CSV siap diproses.')">📥 Export CSV</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nama & WhatsApp</th>
+                  <th>Wilayah & Alamat</th>
+                  <th>Pilihan Paket</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Hubungi</th>
+                </tr>
+              </thead>
+              <tbody id="fullLeadsTable">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: SEO -->
+      <div id="tab-seo" class="tab-content">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div class="card">
+            <div class="card-header">
+              <h3>Konfigurasi Meta Tags SEO</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Pilih Halaman Target</label>
+                <select id="seoPageSelect" onchange="updateSeoPreview()">
+                  <option value="home">Halaman Beranda (/)</option>
+                  <option value="paket">Katalog Paket Internet (/#paket)</option>
+                  <option value="fwa">XL SATU FWA Nirkabel (/#fwa)</option>
+                  <option value="coverage">Cek Coverage ODP (/#coverage)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Meta Title (Maks 60 Karakter)</label>
+                <input type="text" id="seoTitleInput" value="XL SATU Medan & Binjai - Internet Rumah Fiber Optic Unlimited" oninput="updateSeoPreview()">
+              </div>
+
+              <div class="form-group">
+                <label>Meta Description (Maks 160 Karakter)</label>
+                <textarea rows="4" id="seoDescInput" oninput="updateSeoPreview()">Pasang internet rumah fiber optik & nirkabel XL SATU super cepat hingga 400 Mbps + kuota HP sekeluarga khusus area Medan dan Binjai. Gratis biaya pasang!</textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Target Kata Kunci (Keywords)</label>
+                <input type="text" value="xl satu medan, pasang wifi medan, internet fiber binjai, promo wifi sumut">
+              </div>
+
+              <button class="btn btn-primary" onclick="alert('Pengaturan SEO berhasil disimpan!')">💾 Simpan Meta SEO</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <h3>🔍 Pratinjau Google Search (SERP Simulator)</h3>
+              </div>
+              <div class="card-body" style="background: #f8fafc;">
+                <div class="serp-card">
+                  <div class="serp-url">
+                    <span style="font-weight: bold; color: var(--primary);">XL</span>
+                    <span>xlsatumedanbinjai.com</span>
+                  </div>
+                  <div class="serp-title" id="serpTitlePreview">XL SATU Medan & Binjai - Internet Rumah Fiber Optic Unlimited</div>
+                  <div class="serp-desc" id="serpDescPreview">Pasang internet rumah fiber optik & nirkabel XL SATU super cepat hingga 400 Mbps + kuota HP sekeluarga khusus area Medan dan Binjai. Gratis biaya pasang!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: SETTINGS -->
+      <div id="tab-settings" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Pengaturan Kontak & Informasi Situs</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nomor WhatsApp Sales</label>
+                <input type="text" value="6287780346500">
+              </div>
+              <div class="form-group">
+                <label>Tampilan WhatsApp Display</label>
+                <input type="text" value="0877-8034-6500">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Alamat Kantor Operasional</label>
+              <textarea rows="2">XL Center Medan - Jl. Diponegoro No. 34, Medan Kota, Sumatera Utara</textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nomor Call Center</label>
+                <input type="text" value="820">
+              </div>
+              <div class="form-group">
+                <label>Nominal Gratis Biaya Instalasi</label>
+                <input type="text" value="Rp 500.000">
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="alert('Pengaturan situs berhasil diperbarui!')">💾 Simpan Perubahan</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const sampleLeads = [
+      { id: '1048', time: '10:15 Hari ini', name: 'Rahmat Hidayat', phone: '081260458921', area: 'Medan Selayang', pkg: 'Fiber 250 Mbps', status: 'Baru' },
+      { id: '1047', time: '09:30 Hari ini', name: 'Dr. Cut Meutia', phone: '081377890123', area: 'Binjai Barat', pkg: 'Fiber 350 Mbps', status: 'Dihubungi' },
+      { id: '1046', time: 'Kemarin 16:45', name: 'Budi Darmawan', phone: '085270112233', area: 'Deli Serdang / Sunggal', pkg: 'FWA 100 GB', status: 'Survey' },
+      { id: '1045', time: 'Kemarin 14:10', name: 'Hj. Fatimah Zahra', phone: '087799001122', area: 'Medan Johor', pkg: 'Fiber 400 Mbps', status: 'Terpasang' }
+    ];
+
+    function renderLeads() {
+      const dashTable = document.getElementById('dashboardLeadsTable');
+      const fullTable = document.getElementById('fullLeadsTable');
+
+      dashTable.innerHTML = sampleLeads.map(lead => `
+        <tr>
+          <td><small>${lead.time}</small></td>
+          <td><strong>${lead.name}</strong><br><small style="color:var(--muted)">${lead.phone}</small></td>
+          <td>${lead.area}</td>
+          <td><span class="badge badge-primary">${lead.pkg}</span></td>
+          <td><span class="badge ${lead.status === 'Baru' ? 'badge-danger' : lead.status === 'Dihubungi' ? 'badge-warning' : 'badge-success'}">${lead.status}</span></td>
+          <td style="text-align: right;">
+            <a class="btn btn-sm btn-success" href="https://wa.me/${lead.phone.replace(/^0/, '62')}?text=Halo%20Bpk/Ibu%20${encodeURIComponent(lead.name)},%20kami%20dari%20XL%20SATU%20Medan" target="_blank">Chat WA</a>
+          </td>
+        </tr>
+      `).join('');
+
+      fullTable.innerHTML = sampleLeads.map(lead => `
+        <tr>
+          <td>#${lead.id}</td>
+          <td><strong>${lead.name}</strong><br><small>${lead.phone}</small></td>
+          <td>${lead.area}</td>
+          <td><span class="badge badge-primary">${lead.pkg}</span></td>
+          <td><span class="badge ${lead.status === 'Baru' ? 'badge-danger' : 'badge-success'}">${lead.status}</span></td>
+          <td style="text-align: right;">
+            <a class="btn btn-sm btn-success" href="https://wa.me/${lead.phone.replace(/^0/, '62')}" target="_blank">Hubungi</a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.nav-item')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const titles = {
+        dashboard: ['Dashboard Utama', 'Ringkasan performa leads dan paket internet XL SATU Medan & Binjai'],
+        packages: ['Kelola Paket Internet', 'Katalog harga promo dan kecepatan internet'],
+        leads: ['Database Leads & Order', 'Data pemohon pendaftaran & cek jangkauan ODP'],
+        seo: ['Pengaturan SEO & Meta', 'Optimasi kata kunci pencarian Google & pratinjau SERP'],
+        settings: ['Pengaturan Kontak', 'Nomor resmi WhatsApp sales dan lokasi kantor']
+      };
+
+      if (titles[tabId]) {
+        document.getElementById('headerTitle').textContent = titles[tabId][0];
+        document.getElementById('headerSubtitle').textContent = titles[tabId][1];
+      }
+    }
+
+    function updateSeoPreview() {
+      const title = document.getElementById('seoTitleInput').value;
+      const desc = document.getElementById('seoDescInput').value;
+      document.getElementById('serpTitlePreview').textContent = title || 'Judul Halaman';
+      document.getElementById('serpDescPreview').textContent = desc || 'Deskripsi Halaman';
+    }
+
+    renderLeads();
+  </script>
+</body>
+</html>

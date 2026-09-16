@@ -16,6 +16,20 @@ function App() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
+  // Sync hash on initial load & on hash change
+  useEffect(() => {
+    const handleHashCheck = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['paket', 'fwa', 'coverage'].includes(hash)) {
+        setActivePage(hash);
+      }
+    };
+
+    handleHashCheck();
+    window.addEventListener('hashchange', handleHashCheck);
+    return () => window.removeEventListener('hashchange', handleHashCheck);
+  }, []);
+
   // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

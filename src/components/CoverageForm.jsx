@@ -18,7 +18,6 @@ export default function CoverageForm({
   const [userCoords, setUserCoords] = useState(null); // { lat, lng }
   const [isLocating, setIsLocating] = useState(false);
   const [locatingError, setLocatingError] = useState('');
-
   // Synchronize state when props change
   useEffect(() => {
     if (propSelectedCity && propSelectedCity !== selectedCity) {

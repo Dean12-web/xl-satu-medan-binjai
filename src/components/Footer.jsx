@@ -177,7 +177,7 @@ export default function Footer({ onNavigate }) {
           <div>
             &copy; 2012 - {new Date().getFullYear()} {siteConfig.brandName}. All Rights Reserved. XL Axiata Group.
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <span style={{ cursor: 'pointer' }}>Syarat &amp; Ketentuan</span>
             <span style={{ cursor: 'pointer' }}>Kebijakan Privasi</span>
           </div>
