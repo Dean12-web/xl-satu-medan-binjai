@@ -1,5 +1,4 @@
-import React from 'react';
-import { CheckCircle2, Zap, Smartphone, ArrowRight, Star } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Star } from 'lucide-react';
 
 export default function PricingCard({ pkg, onSelectPlan }) {
   const isFiber = pkg.type === 'Fiber';

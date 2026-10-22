@@ -1,13 +1,59 @@
-import { useEffect } from 'react';
-import { pageSeoData, siteSeoConfig, generateJsonLdSchema } from '../data/seoData';
+import { useEffect, useState } from 'react';
+import { pageSeoData as fallbackPageSeo, siteSeoConfig as fallbackGlobalSeo, generateJsonLdSchema } from '../data/seoData';
+import { publicSeoService } from '../services/api';
 
 export default function SeoHead({ activePage = 'home' }) {
+  const [globalSeo, setGlobalSeo] = useState(fallbackGlobalSeo);
+  const [pageSeo, setPageSeo] = useState(fallbackPageSeo[activePage] || fallbackPageSeo.home);
+
+  // Fetch global SEO once
   useEffect(() => {
-    const page = pageSeoData[activePage] || pageSeoData.home;
-    const title = page.title || siteSeoConfig.defaultTitle;
-    const description = page.description || siteSeoConfig.defaultDescription;
-    const keywords = page.keywords || siteSeoConfig.defaultKeywords;
-    const canonicalUrl = `${siteSeoConfig.baseUrl}${page.path === '/' ? '' : page.path}`;
+    let isMounted = true;
+    const fetchGlobal = async () => {
+      try {
+        const data = await publicSeoService.getGlobalSeo();
+        if (isMounted && data) {
+          setGlobalSeo((prev) => ({ ...prev, ...data }));
+        }
+      } catch (error) {
+        console.warn('Gagal fetch global SEO dari API, pakai fallback:', error);
+      }
+    };
+    fetchGlobal();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Fetch page specific SEO when activePage changes
+  useEffect(() => {
+    let isMounted = true;
+    const fetchPage = async () => {
+      try {
+        const data = await publicSeoService.getPageSeo(activePage);
+        if (isMounted && data && data.title) {
+          setPageSeo(data);
+        } else if (isMounted) {
+          setPageSeo(fallbackPageSeo[activePage] || fallbackPageSeo.home);
+        }
+      } catch {
+        if (isMounted) {
+          setPageSeo(fallbackPageSeo[activePage] || fallbackPageSeo.home);
+        }
+      }
+    };
+    fetchPage();
+    return () => { isMounted = false; };
+  }, [activePage]);
+
+  // Update DOM tags
+  useEffect(() => {
+    const page = pageSeo || fallbackPageSeo[activePage] || fallbackPageSeo.home;
+    const config = globalSeo || fallbackGlobalSeo;
+
+    const title = page.title || config.defaultTitle;
+    const description = page.description || config.defaultDescription;
+    const keywords = page.keywords || config.defaultKeywords;
+    const canonicalUrl = `${config.baseUrl}${page.path === '/' ? '' : (page.path || '')}`;
+    const ogImg = page.ogImage || page.og_image || config.defaultImage;
 
     // 1. Update Document Title
     document.title = title;
@@ -20,7 +66,7 @@ export default function SeoHead({ activePage = 'home' }) {
         element.setAttribute(attributeName, attributeValue);
         document.head.appendChild(element);
       }
-      element.setAttribute('content', content);
+      element.setAttribute('content', content || '');
     };
 
     // 2. Standard Meta
@@ -31,16 +77,16 @@ export default function SeoHead({ activePage = 'home' }) {
     setMetaTag('meta[property="og:title"]', 'property', 'og:title', title);
     setMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
     setMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
-    setMetaTag('meta[property="og:image"]', 'property', 'og:image', siteSeoConfig.defaultImage);
-    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', siteSeoConfig.siteName);
+    setMetaTag('meta[property="og:image"]', 'property', 'og:image', ogImg);
+    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', config.siteName);
     setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
-    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', siteSeoConfig.locale);
+    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', config.locale);
 
     // 4. Twitter Card Meta
     setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
     setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
-    setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', siteSeoConfig.defaultImage);
+    setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImg);
 
     // 5. Canonical Link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -60,7 +106,7 @@ export default function SeoHead({ activePage = 'home' }) {
       document.head.appendChild(schemaScript);
     }
     schemaScript.textContent = JSON.stringify(generateJsonLdSchema(activePage));
-  }, [activePage]);
+  }, [activePage, pageSeo, globalSeo]);
 
   return null;
 }

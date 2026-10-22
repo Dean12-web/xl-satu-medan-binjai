@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   MapPin, 
-  CheckCircle, 
-  Search, 
-  Navigation, 
   ShieldCheck, 
   Zap, 
-  Wifi, 
   Layers, 
-  CheckCircle2,
-  Radio,
-  ArrowRight
+  Radio, 
+  ArrowRight 
 } from 'lucide-react';
-import { coverageAreas } from '../data/coverageAreas';
+import { coverageAreas as fallbackCoverageAreas } from '../data/coverageAreas';
+import { publicCoverageService } from '../services/api';
 import CoverageForm from '../components/CoverageForm';
 
 export default function CoveragePage() {
-  const [selectedCity, setSelectedCity] = useState(coverageAreas[0].city);
+  const [areas, setAreas] = useState(fallbackCoverageAreas);
+  const [selectedCity, setSelectedCity] = useState(fallbackCoverageAreas[0]?.city || 'Kota Medan');
   const [selectedDistrict, setSelectedDistrict] = useState('');
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAreas = async () => {
+      try {
+        const data = await publicCoverageService.getAreas();
+        if (isMounted && data && Array.isArray(data) && data.length > 0) {
+          setAreas(data);
+          setSelectedCity((prev) => prev || data[0].city);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch coverage areas dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchAreas();
+    return () => { isMounted = false; };
+  }, []);
 
   // Scroll to Form smoothly
   const handleScrollToForm = () => {
@@ -123,7 +138,7 @@ export default function CoveragePage() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
-          {coverageAreas.map((area) => (
+          {areas.map((area) => (
             <div
               key={area.city}
               style={{

@@ -1,28 +1,68 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
   Play,
   Pause
 } from 'lucide-react';
-import { heroSlides as SLIDES, siteConfig, buildWhatsAppUrl, fwaPackages } from '../data';
-
-const AUTO_PLAY_INTERVAL = siteConfig.defaultHeroInterval || 6000;
+import { heroSlides as fallbackSlides, fwaPackages } from '../data';
+import { publicBannerService } from '../services/api';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export default function HeroSlider({ onNavigate, onSelectPlan }) {
+  const { siteConfig, buildWhatsAppUrl } = useSiteConfig();
+  const [slides, setSlides] = useState(fallbackSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
   const timerRef = useRef(null);
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+  const autoPlayInterval = siteConfig.defaultHeroInterval || 6000;
+
+  // Fetch banners from API
+  useEffect(() => {
+    let isMounted = true;
+    const fetchBanners = async () => {
+      try {
+        const data = await publicBannerService.getHeroSlides();
+        if (isMounted && data && Array.isArray(data) && data.length > 0) {
+          // Merge API banners with fallback images if needed
+          const mapped = data.map((b, idx) => {
+            const fallback = fallbackSlides[idx] || fallbackSlides[0];
+            return {
+              id: b.code || b.id || `slide-${idx}`,
+              title: b.title || fallback.title,
+              badge: b.badge || fallback.badge,
+              image: b.image || fallback.image,
+              imageAlt: b.imageAlt || fallback.imageAlt,
+              primaryCta: b.primaryCta || {
+                target: b.target || fallback.primaryCta.target,
+                isNav: b.isNav !== undefined ? b.isNav : fallback.primaryCta.isNav,
+              },
+              tabLabel: b.tabLabel || fallback.tabLabel,
+            };
+          });
+          setSlides(mapped);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch banner dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchBanners();
+    return () => { isMounted = false; };
   }, []);
 
+  const totalSlides = slides.length || 1;
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  }, [totalSlides]);
+
   const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  }, []);
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, [totalSlides]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -30,10 +70,10 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
 
   // Auto-play timer
   useEffect(() => {
-    if (!isPaused) {
+    if (!isPaused && totalSlides > 1) {
       timerRef.current = setInterval(() => {
         nextSlide();
-      }, AUTO_PLAY_INTERVAL);
+      }, autoPlayInterval);
     }
 
     return () => {
@@ -41,7 +81,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
         clearInterval(timerRef.current);
       }
     };
-  }, [isPaused, nextSlide, currentSlide]);
+  }, [isPaused, nextSlide, currentSlide, autoPlayInterval, totalSlides]);
 
   // Touch Swipe handlers
   const handleTouchStart = (e) => {
@@ -92,11 +132,11 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
       }
     } else if (cta.target === 'whatsapp') {
       const text = 'Halo Sales XL SATU Medan & Binjai, saya tertarik dengan promo internet XL SATU.';
-      window.open(buildWhatsAppUrl(siteConfig.salesWhatsApp, text), '_blank');
+      window.open(buildWhatsAppUrl(text), '_blank');
     }
   };
 
-  const slide = SLIDES[currentSlide];
+  const slide = slides[currentSlide] || slides[0] || fallbackSlides[0];
 
   return (
     <section
@@ -164,7 +204,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
           <div className="hero-slide-counter">
             <span>0{currentSlide + 1}</span>
             <span className="counter-sep">/</span>
-            <span>0{SLIDES.length}</span>
+            <span>0{slides.length}</span>
           </div>
         </div>
 
@@ -172,7 +212,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
         <div className="hero-controls-bar">
           {/* Progress Bar & Dot Indicators */}
           <div className="slider-indicators-wrap">
-            {SLIDES.map((_, idx) => (
+            {slides.map((_, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -183,7 +223,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
                 {currentSlide === idx && (
                   <span
                     className={`slider-progress-fill ${isPaused ? 'paused' : ''}`}
-                    style={{ animationDuration: `${AUTO_PLAY_INTERVAL}ms` }}
+                    style={{ animationDuration: `${autoPlayInterval}ms` }}
                   />
                 )}
               </button>

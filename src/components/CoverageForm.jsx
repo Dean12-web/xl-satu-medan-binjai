@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigation, Send, AlertCircle, Sparkles } from 'lucide-react';
-import { coverageAreas, buildCoverageCheckUrl, findNearestDistrictAndOdp } from '../data';
+import { coverageAreas as fallbackAreas, findNearestDistrictAndOdp } from '../data';
+import { publicCoverageService } from '../services/api';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import CoverageMap from './CoverageMap';
 
 export default function CoverageForm({
@@ -9,60 +11,84 @@ export default function CoverageForm({
   onCityChange,
   onDistrictChange
 }) {
+  const { buildCoverageCheckUrl } = useSiteConfig();
   const [fullName, setFullName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
-  const [selectedCity, setSelectedCity] = useState(propSelectedCity || coverageAreas[0].city);
+  const [selectedCity, setSelectedCity] = useState(propSelectedCity || '');
   const [selectedDistrict, setSelectedDistrict] = useState(propSelectedDistrict || '');
   const [addressDetails, setAddressDetails] = useState('');
   const [gpsLocation, setGpsLocation] = useState('');
   const [userCoords, setUserCoords] = useState(null); // { lat, lng }
   const [isLocating, setIsLocating] = useState(false);
   const [locatingError, setLocatingError] = useState('');
-  // Synchronize state when props change
+
+/* eslint-disable react-hooks/set-state-in-effect */
+  const [coverageAreas, setCoverageAreas] = useState(fallbackAreas);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
-    if (propSelectedCity && propSelectedCity !== selectedCity) {
+    let isMounted = true;
+
+    const fetchAreas = async () => {
+      try {
+        const data = await publicCoverageService.getAreas();
+        if (isMounted && data && data.length > 0) {
+          setCoverageAreas(data);
+          setSelectedCity((prev) => prev || data[0].city);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch area dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchAreas();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Sync state ketika prop berganti
+  useEffect(() => {
+    if (propSelectedCity) {
       setSelectedCity(propSelectedCity);
     }
   }, [propSelectedCity]);
 
   useEffect(() => {
-    if (propSelectedDistrict !== undefined && propSelectedDistrict !== selectedDistrict) {
+    if (propSelectedDistrict !== undefined) {
       setSelectedDistrict(propSelectedDistrict);
     }
   }, [propSelectedDistrict]);
 
-  // Handle City Change
+  // Handle ganti kota
   const handleCitySelect = (city) => {
     setSelectedCity(city);
     setSelectedDistrict('');
-    if (onCityChange) onCityChange(city);
+    if(onCityChange) onCityChange(city);
   };
 
-  // Handle District Change
+  // Hande ganti district
   const handleDistrictSelect = (district) => {
     setSelectedDistrict(district);
-    if (onDistrictChange) onDistrictChange(district);
+    if(onDistrictChange) onDistrictChange(district);
   };
 
-  // Handle Location selected from Map (click or drag)
-  const handleMapLocationSelect = ({ lat, lng, coordsStr }) => {
-    setUserCoords({ lat, lng });
+  // Handle lokasi terpilih dari map (Click / Geser)
+  const handleMapLocationSelect = ({lat, lng, coordsStr}) => {
+    setUserCoords({lat, lng});
     setGpsLocation(coordsStr);
     setLocatingError('');
 
-    // Auto-detect matching city/district
     const nearest = findNearestDistrictAndOdp(lat, lng);
-    if (nearest && nearest.city && !selectedDistrict) {
+    if(nearest && nearest.city && !selectedDistrict){
       setSelectedCity(nearest.city);
-      if (nearest.district) {
+      if(nearest.district){
         setSelectedDistrict(nearest.district.name);
       }
     }
   };
 
-  // Handle GPS detection via "Lokasi Saya" button
+  // Handle GPS detection via "Lokasi saya" button
   const handleGetLocation = () => {
-    if (!navigator.geolocation) {
+    if(!navigator.geolocation){
       setLocatingError('Browser Anda tidak mendukung geolokasi GPS.');
       return;
     }
@@ -72,17 +98,16 @@ export default function CoverageForm({
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
-        const coordsStr = `Lat: ${latitude.toFixed(6)}, Long: ${longitude.toFixed(6)}`;
+        const {latitude, longitude} = position.coords;
+        const coordsStr = `Lat ${latitude.toFixed(6)}, Long: ${longitude.toFixed(6)}`;
         setGpsLocation(coordsStr);
-        setUserCoords({ lat: latitude, lng: longitude });
+        setUserCoords({lat: latitude, lng: longitude});
         setIsLocating(false);
 
-        // Auto-detect matching city/district
         const nearest = findNearestDistrictAndOdp(latitude, longitude);
-        if (nearest && nearest.city) {
+        if(nearest && nearest.city){
           setSelectedCity(nearest.city);
-          if (nearest.district) {
+          if(nearest.district){
             setSelectedDistrict(nearest.district.name);
           }
         }
@@ -91,29 +116,48 @@ export default function CoverageForm({
         setIsLocating(false);
         setLocatingError('Tidak dapat mendeteksi lokasi GPS. Pastikan izin lokasi aktif atau klik langsung pada peta.');
       },
-      { timeout: 10000, enableHighAccuracy: true }
+      {timeout:10000,enableHighAccuracy:true}
     );
   };
 
-  // Handle Form Submit to WhatsApp
-  const handleSubmit = (e) => {
+  // Fetch 2: Submit form -> Simpan lead ke API, lalu buka WhatsApp
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!fullName || !whatsapp) {
-      alert('Mohon lengkapi Nama Lengkap dan Nomor WhatsApp Anda.');
+    if(!fullName || !whatsapp){
+      alert('Mohon lengkapi Nama lengkap dan Nomor WhatsApp Anda.');
       return;
     }
+  
+    setIsSubmitting(true);
 
-    const waUrl = buildCoverageCheckUrl({
-      fullName,
-      whatsapp,
-      selectedCity,
-      selectedDistrict,
-      addressDetails,
-      gpsLocation
-    });
+    try {
+      await publicCoverageService.submitInquiry({
+        name: fullName,
+        phone: whatsapp,
+        city: selectedCity,
+        district: selectedDistrict,
+        address: addressDetails,
+        gps_coordinates: gpsLocation,
+        package_name: 'Cek Coverage',
+        selectedPackage: { name: 'Cek Coverage' },
+        source: 'Formulir Cek Jangkauan ODP',
+      });
+    } catch (error) {
+      console.warn('Gagal menyimpan lead ke server, lanjut ke WhatsApp:', error);
+    } finally{
+      setIsSubmitting(false);
 
-    window.open(waUrl, '_blank');
+      const waUrl = buildCoverageCheckUrl({
+        fullName,
+        whatsapp,
+        selectedCity,
+        selectedDistrict,
+        addressDetails,
+        gpsLocation
+      });
+      window.open(waUrl, '_blank');
+    }
   };
 
   const currentCityData = coverageAreas.find((c) => c.city === selectedCity) || coverageAreas[0];
@@ -307,11 +351,12 @@ export default function CoverageForm({
         <div style={{ paddingTop: '0.5rem' }}>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="btn-primary"
             style={{ width: '100%', padding: '1.05rem', fontSize: '1.05rem', borderRadius: '12px', fontWeight: 800 }}
           >
             <Send size={20} />
-            Kirim &amp; Cek Jangkauan via WhatsApp Sales
+            {isSubmitting ? 'Menyimpan & Menghubungkan...' : 'Kirim & Cek Jangkauan via WhatsApp Sales'}
           </button>
           <p style={{ textAlign: 'center', fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.65rem' }}>
             ⚡ Gratis Biaya Pengecekan Lokasi &amp; Pemasangan Teknisi Resmi XL SATU

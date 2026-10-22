@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
-import { buildGeneralConsultationUrl } from '../data';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(true);
+  const { buildGeneralConsultationUrl } = useSiteConfig();
 
   const handleWhatsAppClick = () => {
     window.open(buildGeneralConsultationUrl(), '_blank');

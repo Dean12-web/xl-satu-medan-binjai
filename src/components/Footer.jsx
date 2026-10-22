@@ -1,6 +1,6 @@
-import React from 'react';
 import { ShieldCheck, Phone, MapPin, ChevronRight, ExternalLink } from 'lucide-react';
-import { footerNavigation, popularCoverageAreas, siteConfig } from '../data';
+import { footerNavigation, popularCoverageAreas } from '../data';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import logo from '../assets/xl-icon.webp';
 
 function SocialIcon({ type, size = 20 }) {
@@ -31,6 +31,7 @@ function SocialIcon({ type, size = 20 }) {
 }
 
 export default function Footer({ onNavigate }) {
+  const { siteConfig } = useSiteConfig();
   return (
     <footer style={{ backgroundColor: 'var(--color-xl-blue)', color: '#ffffff', paddingTop: '4rem', paddingBottom: '2rem' }}>
       <div className="container-xl">

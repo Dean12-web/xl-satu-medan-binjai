@@ -1,17 +1,36 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Radio, 
   Zap, 
-  ArrowRight,
-  Sparkles,
-  PlugZap,
-  Clock
+  ArrowRight, 
+  Sparkles, 
+  PlugZap, 
+  Clock 
 } from 'lucide-react';
-import { fwaPackages, fwaSteps } from '../data';
+import { fwaPackages as fallbackFwaPackages, fwaSteps } from '../data';
+import { publicPackageService } from '../services/api';
 import FwaHubAnimation from '../components/FwaHubAnimation';
 import PricingCard from '../components/PricingCard';
 
 export default function FwaPage({ onSelectPlan, onNavigate }) {
+  const [fwaList, setFwaList] = useState(fallbackFwaPackages);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchFwa = async () => {
+      try {
+        const data = await publicPackageService.getPackages('FWA');
+        if (isMounted && data && Array.isArray(data) && data.length > 0) {
+          setFwaList(data);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch paket FWA dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchFwa();
+    return () => { isMounted = false; };
+  }, []);
   const renderStepIcon = (name, size = 24) => {
     switch (name) {
       case 'Clock':
@@ -143,7 +162,7 @@ export default function FwaPage({ onSelectPlan, onNavigate }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-          {fwaPackages.map((pkg) => (
+          {fwaList.map((pkg) => (
             <PricingCard
               key={pkg.id}
               pkg={pkg}

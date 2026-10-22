@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Radio, Zap, CheckCircle2 } from 'lucide-react';
-import { fiberPackages, fwaPackages, packageBenefits } from '../data';
+import { fiberPackages as fallbackFiber, fwaPackages as fallbackFwa, packageBenefits } from '../data';
+import { publicPackageService } from '../services/api';
 import PricingCard from '../components/PricingCard';
 
 export default function PaketPage({ onSelectPlan }) {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'fiber', 'fwa'
+  const [fiberList, setFiberList] = useState(fallbackFiber);
+  const [fwaList, setFwaList] = useState(fallbackFwa);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAllPackages = async () => {
+      try {
+        const data = await publicPackageService.getPackages();
+        if (isMounted && data && Array.isArray(data) && data.length > 0) {
+          const fibers = data.filter((p) => p.type === 'Fiber');
+          const fwas = data.filter((p) => p.type === 'FWA');
+          if (fibers.length > 0) setFiberList(fibers);
+          if (fwas.length > 0) setFwaList(fwas);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch paket dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchAllPackages();
+    return () => { isMounted = false; };
+  }, []);
 
   const displayPackages = 
     activeTab === 'fiber' 
-      ? fiberPackages 
+      ? fiberList 
       : activeTab === 'fwa' 
-      ? fwaPackages 
-      : [...fiberPackages, ...fwaPackages];
+      ? fwaList 
+      : [...fiberList, ...fwaList];
 
   return (
     <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', paddingBottom: '5rem' }}>
@@ -43,7 +66,7 @@ export default function PaketPage({ onSelectPlan }) {
                 transition: 'all 0.2s'
               }}
             >
-              Semua Paket ({fiberPackages.length + fwaPackages.length})
+              Semua Paket ({fiberList.length + fwaList.length})
             </button>
             <button
               type="button"
@@ -62,7 +85,7 @@ export default function PaketPage({ onSelectPlan }) {
               }}
             >
               <Zap size={16} />
-              Fiber Optic ({fiberPackages.length})
+              Fiber Optic ({fiberList.length})
             </button>
             <button
               type="button"
@@ -81,7 +104,7 @@ export default function PaketPage({ onSelectPlan }) {
               }}
             >
               <Radio size={16} />
-              FWA Nirkabel ({fwaPackages.length})
+              FWA Nirkabel ({fwaList.length})
             </button>
           </div>
         </div>

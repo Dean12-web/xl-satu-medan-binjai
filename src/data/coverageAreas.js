@@ -67,10 +67,13 @@ export const coverageAreas = [
     districts: [
       { name: 'Percut Sei Tuan', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.6280, lng: 98.7420, speed: 'Hingga 1 Gbps', odpCount: '120+ ODP', subAreas: ['Bandar Khalipah', 'Tembung Pasar', 'Laut Dendang', 'Medan Estate (UNIMED)', 'Sampali'] },
       { name: 'Sunggal (Deli Serdang)', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5820, lng: 98.5950, speed: 'Hingga 1 Gbps', odpCount: '85+ ODP', subAreas: ['Diski', 'KM 12 Medan-Binjai', 'Mulyo Rejo', 'Paya Geli', 'Sei Mencirim'] },
-      { name: 'Deli Tua', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.4980, lng: 98.6850, speed: 'Hingga 1 Gbps', odpCount: '50+ ODP', subAreas: ['Deli Tua Timur', 'Deli Tua Barat', 'Kedai Durian', 'Suka Makmur'] },
-      { name: 'Patumbak', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5120, lng: 98.7180, speed: 'Hingga 1 Gbps', odpCount: '45+ ODP', subAreas: ['Patumbak Kampung', 'Marindal II', 'Sigara-gara', 'Marendal I'] },
-      { name: 'Lubuk Pakam', status: 'Tersedia Sebagian', type: 'FWA & Fiber', lat: 3.5600, lng: 98.8750, speed: 'Hingga 500 Mbps', odpCount: '40+ ODP', subAreas: ['Kompleks Kantor Bupati', 'Pakam Pekan', 'Tanjung Garbus', 'Cemara'] },
-      { name: 'Tanjung Morawa', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5320, lng: 98.7850, speed: 'Hingga 1 Gbps', odpCount: '65+ ODP', subAreas: ['Simpang Kayu Besar', 'Tanjung Morawa Pekan', 'Kawasan Industri KIM Star', 'Buntu Bedimbar'] }
+      { name: 'Patumbak', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5120, lng: 98.7180, speed: 'Hingga 1 Gbps', odpCount: '60+ ODP', subAreas: ['Patumbak Kampung', 'Marindal II', 'Sigara-gara', 'Marendal I', 'Perbatasan Amplas'] },
+      { name: 'Deli Tua', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.4980, lng: 98.6850, speed: 'Hingga 1 Gbps', odpCount: '55+ ODP', subAreas: ['Deli Tua Timur', 'Deli Tua Barat', 'Kedai Durian', 'Suka Makmur', 'Perbatasan Medan Johor'] },
+      { name: 'Tanjung Morawa', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5320, lng: 98.7850, speed: 'Hingga 1 Gbps', odpCount: '75+ ODP', subAreas: ['Simpang Kayu Besar', 'Tanjung Morawa Pekan', 'Kawasan Industri KIM Star', 'Buntu Bedimbar', 'Limau Manis'] },
+      { name: 'Labuhan Deli', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.6850, lng: 98.6750, speed: 'Hingga 1 Gbps', odpCount: '50+ ODP', subAreas: ['Helvetia Deli Serdang', 'Manunggal', 'Pematang Johar', 'Telaga Tujuh', 'Perbatasan Medan Utara'] },
+      { name: 'Pancur Batu', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.5050, lng: 98.5720, speed: 'Hingga 1 Gbps', odpCount: '45+ ODP', subAreas: ['Simpang Tuntungan', 'Durin Simbelang', 'Namo Bintang', 'Hulu', 'Jl. Jamin Ginting KM 16-19'] },
+      { name: 'Namo Rambe', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.4750, lng: 98.6500, speed: 'Hingga 500 Mbps', odpCount: '40+ ODP', subAreas: ['Batu Penjemuran', 'Jati Kesuma', 'Kuta Tengah', 'Perbatasan Karya Jaya Medan'] },
+      { name: 'Hamparan Perak', status: 'Tersedia', type: 'Fiber & FWA', lat: 3.7120, lng: 98.6180, speed: 'Hingga 500 Mbps', odpCount: '40+ ODP', subAreas: ['Hamparan Perak Pekan', 'Klambir Lima', 'Tandam Hilir', 'Kota Rantang', 'Perbatasan Pinggiran Medan'] }
     ]
   }
 ];

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ZoomIn, ZoomOut } from 'lucide-react';
@@ -11,55 +11,6 @@ export default function CoverageMap({
   const mapInstanceRef = useRef(null);
   const userMarkerRef = useRef(null);
   const userCircleRef = useRef(null);
-
-  // Initialize Clean Map
-  useEffect(() => {
-    if (!mapContainerRef.current || mapInstanceRef.current) return;
-
-    // Center Medan - Binjai
-    const defaultCenter = [3.5952, 98.6722];
-    const defaultZoom = 12;
-
-    const map = L.map(mapContainerRef.current, {
-      center: defaultCenter,
-      zoom: defaultZoom,
-      zoomControl: false,
-      attributionControl: true,
-      maxZoom: 18,
-      minZoom: 9
-    });
-
-    // Clean OpenStreetMap Carto tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-      subdomains: 'abcd'
-    }).addTo(map);
-
-    mapInstanceRef.current = map;
-
-    // Click on map to set user pin
-    map.on('click', (e) => {
-      setUserPin(e.latlng.lat, e.latlng.lng, false);
-      if (onLocationSelect) {
-        onLocationSelect({
-          lat: e.latlng.lat,
-          lng: e.latlng.lng,
-          coordsStr: `Lat: ${e.latlng.lat.toFixed(6)}, Long: ${e.latlng.lng.toFixed(6)}`
-        });
-      }
-    });
-
-    // Resize invalidate
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 200);
-
-    return () => {
-      map.remove();
-      mapInstanceRef.current = null;
-    };
-  }, [onLocationSelect]);
 
   // Helper to place/update single User Pin
   const setUserPin = useCallback((lat, lng, flyTo = true) => {
@@ -132,6 +83,54 @@ export default function CoverageMap({
       map.flyTo([lat, lng], 15, { duration: 1.2 });
     }
   }, [onLocationSelect]);
+
+  // Initialize Clean Map
+  useEffect(() => {
+    if (!mapContainerRef.current || mapInstanceRef.current) return;
+
+    // Center Medan - Binjai
+    const defaultCenter = [3.5952, 98.6722];
+    const defaultZoom = 12;
+
+    const map = L.map(mapContainerRef.current, {
+      center: defaultCenter,
+      zoom: defaultZoom,
+      zoomControl: false,
+      attributionControl: true,
+      maxZoom: 18,
+      minZoom: 9
+    });
+
+    // Official OpenStreetMap tiles (100% Free & No API key needed)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    mapInstanceRef.current = map;
+
+    // Click on map to set user pin
+    map.on('click', (e) => {
+      setUserPin(e.latlng.lat, e.latlng.lng, false);
+      if (onLocationSelect) {
+        onLocationSelect({
+          lat: e.latlng.lat,
+          lng: e.latlng.lng,
+          coordsStr: `Lat: ${e.latlng.lat.toFixed(6)}, Long: ${e.latlng.lng.toFixed(6)}`
+        });
+      }
+    });
+
+    // Resize invalidate
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
+
+    return () => {
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+  }, [onLocationSelect, setUserPin]);
 
   // Sync with userCoords prop (when "Lokasi Saya" button is clicked)
   useEffect(() => {

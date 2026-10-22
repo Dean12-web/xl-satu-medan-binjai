@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Wifi, 
   Smartphone, 
@@ -10,16 +10,35 @@ import {
   Users
 } from 'lucide-react';
 import { 
-  fiberPackages, 
+  fiberPackages as fallbackFiberPackages, 
   quickActions, 
   homeKeyFeatures, 
   firstMediaBannerContent, 
   myXlAppShowcaseContent 
 } from '../data';
+import { publicPackageService } from '../services/api';
 import HeroSlider from '../components/HeroSlider';
 import PricingCard from '../components/PricingCard';
 
 export default function HomePage({ onNavigate, onSelectPlan }) {
+  const [packages, setPackages] = useState(fallbackFiberPackages);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchFiberPackages = async () => {
+      try {
+        const data = await publicPackageService.getPackages('Fiber');
+        if (isMounted && data && Array.isArray(data) && data.length > 0) {
+          setPackages(data);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch paket fiber dari API, pakai data fallback lokal:', error);
+      }
+    };
+
+    fetchFiberPackages();
+    return () => { isMounted = false; };
+  }, []);
   // Dynamic Icon Resolver
   const renderIcon = (name, size = 24) => {
     switch (name) {
@@ -110,7 +129,7 @@ export default function HomePage({ onNavigate, onSelectPlan }) {
           </div>
 
           <div className="pricing-grid">
-            {fiberPackages.map((pkg) => (
+            {packages.map((pkg) => (
               <PricingCard
                 key={pkg.id}
                 pkg={pkg}

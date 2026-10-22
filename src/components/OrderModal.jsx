@@ -1,28 +1,64 @@
-import React, { useState } from 'react';
-import { X, Send, ShieldCheck } from 'lucide-react';
-import { coverageAreas, buildOrderUrl, siteConfig } from '../data';
+import { useState, useEffect } from 'react';
+import { X, Send, ShieldCheck, Loader2 } from 'lucide-react';
+import { coverageAreas as fallbackAreas } from '../data';
+import { publicOrderService, publicCoverageService } from '../services/api';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export default function OrderModal({ isOpen, onClose, selectedPackage }) {
+  const { siteConfig, buildOrderUrl } = useSiteConfig();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [city, setCity] = useState(coverageAreas[0].city);
+  const [areas, setAreas] = useState(fallbackAreas);
+  const [city, setCity] = useState(fallbackAreas[0]?.city || 'Kota Medan');
   const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAreas = async () => {
+      try {
+        const data = await publicCoverageService.getAreas();
+        if (isMounted && data && data.length > 0) {
+          setAreas(data);
+          setCity((prev) => prev || data[0].city);
+        }
+      } catch (error) {
+        console.warn('Gagal fetch area di OrderModal, pakai fallback:', error);
+      }
+    };
+    fetchAreas();
+    return () => { isMounted = false; };
+  }, []);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const waUrl = buildOrderUrl({
-      selectedPackage,
-      name,
-      phone,
-      city,
-      address
-    });
-
-    window.open(waUrl, '_blank');
-    onClose();
+    try {
+      await publicOrderService.createOrder({
+        name,
+        phone,
+        city,
+        address,
+        selectedPackage,
+        source: 'Landing Page Modal Order'
+      });
+    } catch (error) {
+      console.warn('Gagal menyimpan lead ke server, melanjutkan via Whatsapp:', error);
+    } finally {
+      setLoading(false);
+      const waUrl = buildOrderUrl({
+        selectedPackage,
+        name,
+        phone,
+        city,
+        address
+      });
+      window.open(waUrl, '_blank');
+      onClose();
+    }
   };
 
   return (
@@ -142,7 +178,7 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
                 background: '#ffffff'
               }}
             >
-              {coverageAreas.map((c) => (
+              {areas.map((c) => (
                 <option key={c.city} value={c.city}>
                   {c.city}
                 </option>
@@ -180,11 +216,12 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
           <div style={{ paddingTop: '0.5rem' }}>
             <button
               type="submit"
+              disabled={loading}
               className="btn-green"
               style={{ width: '100%', padding: '0.9rem', fontSize: '1rem', borderRadius: '10px' }}
             >
-              <Send size={18} />
-              Lanjutkan Registrasi via WhatsApp
+              {loading ? <Loader2 size={18} className='animate-spin' /> : <Send size={18} />}
+              <span>{loading ? 'Menyimpan & Menghubungkan...' : 'Kirim Pendaftaran ke WhatsApp'}</span>
             </button>
           </div>
         </form>

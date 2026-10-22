@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logo from '../assets/xl-icon.webp';
 import { 
   Menu, 
@@ -6,9 +6,11 @@ import {
   PhoneCall, 
   ChevronRight 
 } from 'lucide-react';
-import { navItems, siteConfig } from '../data';
+import { navItems } from '../data';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export default function Navbar({ activePage, setActivePage, onOpenRegister }) {
+  const { siteConfig } = useSiteConfig();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleNavClick = (pageId) => {
