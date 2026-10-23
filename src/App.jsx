@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
@@ -102,6 +103,20 @@ function App() {
 
       {/* Global Floating Action Elements */}
       <FloatingWhatsApp />
+
+      {/* Toast Notifications */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
 
       {/* Order Confirmation Modal */}
       <OrderModal

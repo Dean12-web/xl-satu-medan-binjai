@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { Navigation, Send, AlertCircle, Sparkles } from 'lucide-react';
 import { coverageAreas as fallbackAreas, findNearestDistrictAndOdp } from '../data';
 import { publicCoverageService } from '../services/api';
@@ -125,7 +126,7 @@ export default function CoverageForm({
     e.preventDefault();
 
     if(!fullName || !whatsapp){
-      alert('Mohon lengkapi Nama lengkap dan Nomor WhatsApp Anda.');
+      toast.warning('Mohon lengkapi Nama lengkap dan Nomor WhatsApp Anda.');
       return;
     }
   
