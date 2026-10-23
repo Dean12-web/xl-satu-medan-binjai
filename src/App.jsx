@@ -1,16 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import OrderModal from './components/OrderModal';
 import SeoHead from './components/SeoHead';
-
 import HomePage from './pages/HomePage';
-import PaketPage from './pages/PaketPage';
-import FwaPage from './pages/FwaPage';
-import CoveragePage from './pages/CoveragePage';
 import './App.css';
+
+// Lazy load secondary pages and modals for minimal initial bundle
+const PaketPage = lazy(() => import('./pages/PaketPage'));
+const FwaPage = lazy(() => import('./pages/FwaPage'));
+const CoveragePage = lazy(() => import('./pages/CoveragePage'));
+const OrderModal = lazy(() => import('./components/OrderModal'));
+
+const PageLoader = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', color: 'var(--color-xl-blue)' }}>
+    <div style={{ width: '40px', height: '40px', border: '3px solid #e2e8f0', borderTopColor: 'var(--color-xl-blue)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+  </div>
+);
 
 function App() {
   const [activePage, setActivePage] = useState('home');
@@ -95,7 +102,9 @@ function App() {
 
       {/* Main Active Page View */}
       <main style={{ flexGrow: 1 }}>
-        {renderActivePage()}
+        <Suspense fallback={<PageLoader />}>
+          {renderActivePage()}
+        </Suspense>
       </main>
 
       {/* Footer */}
@@ -119,14 +128,18 @@ function App() {
       />
 
       {/* Order Confirmation Modal */}
-      <OrderModal
-        isOpen={isOrderModalOpen}
-        onClose={() => {
-          setIsOrderModalOpen(false);
-          setSelectedPackage(null);
-        }}
-        selectedPackage={selectedPackage}
-      />
+      {isOrderModalOpen && (
+        <Suspense fallback={null}>
+          <OrderModal
+            isOpen={isOrderModalOpen}
+            onClose={() => {
+              setIsOrderModalOpen(false);
+              setSelectedPackage(null);
+            }}
+            selectedPackage={selectedPackage}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

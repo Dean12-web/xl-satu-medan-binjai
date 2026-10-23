@@ -4,6 +4,8 @@ import { coverageAreas as fallbackAreas } from '../data';
 import { publicOrderService, publicCoverageService } from '../services/api';
 import { useSiteConfig } from '../context/SiteConfigContext';
 
+import { validateIndonesianPhone, sanitizeString, safeOpenExternal } from '../utils/validation';
+
 export default function OrderModal({ isOpen, onClose, selectedPackage }) {
   const { siteConfig, buildOrderUrl } = useSiteConfig();
   const [name, setName] = useState('');
@@ -12,6 +14,7 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
   const [city, setCity] = useState(fallbackAreas[0]?.city || 'Kota Medan');
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     let isMounted = true;
@@ -34,14 +37,30 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    const cleanName = sanitizeString(name, 100);
+    const cleanPhone = phone.trim();
+    const cleanAddress = sanitizeString(address, 500);
+
+    if (!cleanName) {
+      setErrorMessage('Mohon lengkapi Nama lengkap Anda.');
+      return;
+    }
+
+    if (!validateIndonesianPhone(cleanPhone)) {
+      setErrorMessage('Nomor WhatsApp tidak valid. Gunakan format nomor Indonesia (contoh: 081234567890).');
+      return;
+    }
+
     setLoading(true);
 
     try {
       await publicOrderService.createOrder({
-        name,
-        phone,
+        name: cleanName,
+        phone: cleanPhone,
         city,
-        address,
+        address: cleanAddress,
         selectedPackage,
         source: 'Landing Page Modal Order'
       });
@@ -51,12 +70,12 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
       setLoading(false);
       const waUrl = buildOrderUrl({
         selectedPackage,
-        name,
-        phone,
+        name: cleanName,
+        phone: cleanPhone,
         city,
-        address
+        address: cleanAddress
       });
-      window.open(waUrl, '_blank');
+      safeOpenExternal(waUrl);
       onClose();
     }
   };
@@ -212,6 +231,12 @@ export default function OrderModal({ isOpen, onClose, selectedPackage }) {
             <ShieldCheck size={16} />
             <span>Gratis Biaya Pasang (Hemat {siteConfig.installationFeeSavings}) &amp; Bebas Biaya Pendaftaran</span>
           </div>
+
+          {errorMessage && (
+            <div style={{ color: '#dc2626', fontSize: '0.8125rem', background: '#fee2e2', padding: '0.5rem 0.75rem', borderRadius: '8px', fontWeight: 600 }}>
+              {errorMessage}
+            </div>
+          )}
 
           <div style={{ paddingTop: '0.5rem' }}>
             <button

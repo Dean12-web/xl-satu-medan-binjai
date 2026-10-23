@@ -8,6 +8,7 @@ import {
 import { heroSlides as fallbackSlides, fwaPackages } from '../data';
 import { publicBannerService } from '../services/api';
 import { useSiteConfig } from '../context/SiteConfigContext';
+import { safeOpenExternal } from '../utils/validation';
 
 export default function HeroSlider({ onNavigate, onSelectPlan }) {
   const { siteConfig, buildWhatsAppUrl } = useSiteConfig();
@@ -132,7 +133,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
       }
     } else if (cta.target === 'whatsapp') {
       const text = 'Halo Sales XL SATU Medan & Binjai, saya tertarik dengan promo internet XL SATU.';
-      window.open(buildWhatsAppUrl(text), '_blank');
+      safeOpenExternal(buildWhatsAppUrl(text));
     }
   };
 
@@ -173,6 +174,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
             alt={slide.imageAlt}
             className="hero-banner-img animate-zoom"
             loading="eager"
+            fetchPriority="high"
           />
 
           {/* Floating Navigation Arrows on Banner */}

@@ -61,6 +61,11 @@ export default function HomePage({ onNavigate, onSelectPlan }) {
 
   return (
     <div>
+      {/* 0. SEMANTIC H1 FOR SEO & SCREEN READERS */}
+      <h1 style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
+        XL SATU Medan &amp; Binjai - Pasang WiFi Internet Rumah Fiber &amp; FWA Unlimited
+      </h1>
+
       {/* 1. HERO SLIDER SECTION */}
       <HeroSlider onNavigate={onNavigate} onSelectPlan={onSelectPlan} />
 
@@ -189,6 +194,10 @@ export default function HomePage({ onNavigate, onSelectPlan }) {
               <img
                 src={firstMediaBannerContent.image}
                 alt={firstMediaBannerContent.imageAlt}
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="533"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
@@ -209,6 +218,10 @@ export default function HomePage({ onNavigate, onSelectPlan }) {
               <img
                 src={myXlAppShowcaseContent.image}
                 alt={myXlAppShowcaseContent.imageAlt}
+                loading="lazy"
+                decoding="async"
+                width="600"
+                height="600"
                 style={{ maxWidth: '320px', width: '100%', borderRadius: '32px', boxShadow: '0 25px 50px -12px rgba(22, 67, 145, 0.25)', border: '4px solid #ffffff' }}
               />
             </div>

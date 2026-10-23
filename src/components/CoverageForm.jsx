@@ -5,6 +5,7 @@ import { coverageAreas as fallbackAreas, findNearestDistrictAndOdp } from '../da
 import { publicCoverageService } from '../services/api';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import CoverageMap from './CoverageMap';
+import { validateIndonesianPhone, sanitizeString, safeOpenExternal } from '../utils/validation';
 
 export default function CoverageForm({
   selectedCity: propSelectedCity,
@@ -26,6 +27,15 @@ export default function CoverageForm({
 /* eslint-disable react-hooks/set-state-in-effect */
   const [coverageAreas, setCoverageAreas] = useState(fallbackAreas);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+
+  useEffect(() => {
+    if (cooldownSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setCooldownSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldownSeconds]);
 
   useEffect(() => {
     let isMounted = true;
@@ -125,8 +135,22 @@ export default function CoverageForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!fullName || !whatsapp){
-      toast.warning('Mohon lengkapi Nama lengkap dan Nomor WhatsApp Anda.');
+    if (cooldownSeconds > 0) {
+      toast.info(`Mohon tunggu ${cooldownSeconds} detik sebelum mengirim kembali.`);
+      return;
+    }
+
+    const cleanName = sanitizeString(fullName, 100);
+    const cleanPhone = whatsapp.trim();
+    const cleanAddress = sanitizeString(addressDetails, 500);
+
+    if (!cleanName) {
+      toast.warning('Mohon lengkapi Nama lengkap Anda.');
+      return;
+    }
+
+    if (!validateIndonesianPhone(cleanPhone)) {
+      toast.warning('Nomor WhatsApp tidak valid. Gunakan format nomor Indonesia (contoh: 081234567890).');
       return;
     }
   
@@ -134,11 +158,11 @@ export default function CoverageForm({
 
     try {
       await publicCoverageService.submitInquiry({
-        name: fullName,
-        phone: whatsapp,
+        name: cleanName,
+        phone: cleanPhone,
         city: selectedCity,
         district: selectedDistrict,
-        address: addressDetails,
+        address: cleanAddress,
         gps_coordinates: gpsLocation,
         package_name: 'Cek Coverage',
         selectedPackage: { name: 'Cek Coverage' },
@@ -146,18 +170,19 @@ export default function CoverageForm({
       });
     } catch (error) {
       console.warn('Gagal menyimpan lead ke server, lanjut ke WhatsApp:', error);
-    } finally{
+    } finally {
       setIsSubmitting(false);
+      setCooldownSeconds(5); // 5 seconds anti-spam cooldown
 
       const waUrl = buildCoverageCheckUrl({
-        fullName,
-        whatsapp,
+        fullName: cleanName,
+        whatsapp: cleanPhone,
         selectedCity,
         selectedDistrict,
-        addressDetails,
+        addressDetails: cleanAddress,
         gpsLocation
       });
-      window.open(waUrl, '_blank');
+      safeOpenExternal(waUrl);
     }
   };
 
@@ -352,12 +377,16 @@ export default function CoverageForm({
         <div style={{ paddingTop: '0.5rem' }}>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || cooldownSeconds > 0}
             className="btn-primary"
             style={{ width: '100%', padding: '1.05rem', fontSize: '1.05rem', borderRadius: '12px', fontWeight: 800 }}
           >
             <Send size={20} />
-            {isSubmitting ? 'Menyimpan & Menghubungkan...' : 'Kirim & Cek Jangkauan via WhatsApp Sales'}
+            {isSubmitting 
+              ? 'Menyimpan & Menghubungkan...' 
+              : cooldownSeconds > 0 
+                ? `Mohon tunggu ${cooldownSeconds} detik...` 
+                : 'Kirim & Cek Jangkauan via WhatsApp Sales'}
           </button>
           <p style={{ textAlign: 'center', fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.65rem' }}>
             ⚡ Gratis Biaya Pengecekan Lokasi &amp; Pemasangan Teknisi Resmi XL SATU

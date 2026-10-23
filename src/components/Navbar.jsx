@@ -111,7 +111,8 @@ export default function Navbar({ activePage, setActivePage, onOpenRegister }) {
           </div>
           <button 
             type="button"
-            style={{ background: 'none', padding: '0.3rem', color: '#64748b' }}
+            aria-label="Tutup Menu Navigasi"
+            style={{ background: 'none', padding: '0.3rem', color: '#64748b', cursor: 'pointer' }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <X size={24} />

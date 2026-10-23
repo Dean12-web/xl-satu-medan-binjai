@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { useSiteConfig } from '../context/SiteConfigContext';
+import { safeOpenExternal } from '../utils/validation';
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(true);
   const { buildGeneralConsultationUrl } = useSiteConfig();
 
   const handleWhatsAppClick = () => {
-    window.open(buildGeneralConsultationUrl(), '_blank');
+    safeOpenExternal(buildGeneralConsultationUrl());
   };
 
   return (
