@@ -1,6 +1,6 @@
 export const siteConfig = {
   brandName: 'XL SATU',
-  brandTagline: 'Medan & Binjai',
+  brandTagline: 'Medan, Binjai & Deli Serdang',
   region: 'Sumatera Utara',
   partnerLabel: 'Mitra Resmi XL Axiata Sumatera Utara',
   salesWhatsApp: '6287780346500',

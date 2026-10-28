@@ -2,6 +2,7 @@ import { ShieldCheck, Phone, MapPin, ChevronRight, ExternalLink } from 'lucide-r
 import { footerNavigation, popularCoverageAreas } from '../data';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import logo from '../assets/xl-icon.webp';
+import { renderBrandTagline } from './Navbar';
 
 function SocialIcon({ type, size = 20 }) {
   switch (type) {
@@ -56,8 +57,8 @@ export default function Footer({ onNavigate }) {
                   className="footer-logo-img" 
                 />
               </div>
-              <span className="brand-location-tag" style={{ marginLeft: 0 }}>
-                {siteConfig.brandTagline}
+              <span className="brand-location-tag">
+                {renderBrandTagline(siteConfig.brandTagline)}
               </span>
             </div>
 

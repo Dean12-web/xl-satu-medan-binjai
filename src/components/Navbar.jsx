@@ -9,6 +9,20 @@ import {
 import { navItems } from '../data';
 import { useSiteConfig } from '../context/SiteConfigContext';
 
+export const renderBrandTagline = (tagline) => {
+  const text = tagline || 'Medan, Binjai & Deli Serdang';
+  if (text.includes('&')) {
+    const parts = text.split('&');
+    return (
+      <>
+        <span className="brand-tag-line">{parts[0].trim()}</span>
+        <span className="brand-tag-line">&amp; {parts[1].trim()}</span>
+      </>
+    );
+  }
+  return text;
+};
+
 export default function Navbar({ activePage, setActivePage, onOpenRegister }) {
   const { siteConfig } = useSiteConfig();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -43,12 +57,12 @@ export default function Navbar({ activePage, setActivePage, onOpenRegister }) {
         <div className="container-xl nav-container">
           {/* Logo Brand */}
           <div 
-            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+            className="brand-logo"
             onClick={() => handleNavClick('home')}
           >
             <img src={logo} alt={siteConfig.brandName} className="brand-logo-img" />
             <span className="brand-location-tag">
-              {siteConfig.brandTagline}
+              {renderBrandTagline(siteConfig.brandTagline)}
             </span>
           </div>
 
@@ -104,15 +118,17 @@ export default function Navbar({ activePage, setActivePage, onOpenRegister }) {
       )}
 
       <div className={`mobile-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleNavClick('home')}>
-            <img src={logo} alt={siteConfig.brandName} className="brand-logo-img" style={{ height: '30px' }} />
-            <span className="brand-location-tag" style={{ marginLeft: '0.35rem' }}>Sumut</span>
+        <div className="drawer-header">
+          <div className="brand-logo" onClick={() => handleNavClick('home')}>
+            <img src={logo} alt={siteConfig.brandName} className="brand-logo-img drawer-logo-img" />
+            <span className="brand-location-tag">
+              {renderBrandTagline(siteConfig.brandTagline)}
+            </span>
           </div>
           <button 
             type="button"
             aria-label="Tutup Menu Navigasi"
-            style={{ background: 'none', padding: '0.3rem', color: '#64748b', cursor: 'pointer' }}
+            className="drawer-close-btn"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <X size={24} />
