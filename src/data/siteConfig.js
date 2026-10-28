@@ -5,8 +5,6 @@ export const siteConfig = {
   partnerLabel: 'Mitra Resmi XL Axiata Sumatera Utara',
   salesWhatsApp: '6287780346500',
   salesWhatsAppDisplay: '0877-8034-6500',
-  callCenterNumber: '820',
-  callCenterLabel: '820 (Bebas Pulsa XL)',
   officeAddress: 'XL Center Medan - Jl. Diponegoro No. 34, Medan Kota, Sumatera Utara',
   myXLAppUrl: 'https://my.xl.co.id',
   installationFeeSavings: 'Rp 500.000',
@@ -38,7 +36,6 @@ export const siteConfig = {
 };
 
 export const SALES_WHATSAPP_NUMBER = siteConfig.salesWhatsApp;
-export const CS_PHONE_NUMBER = siteConfig.callCenterNumber;
 
 export const buildWhatsAppUrl = (phoneNumber, text) => {
   return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;

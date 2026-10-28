@@ -156,5 +156,5 @@ export function findNearestDistrictAndOdp(lat, lng) {
   };
 }
 
-import { SALES_WHATSAPP_NUMBER, CS_PHONE_NUMBER } from './siteConfig';
-export { SALES_WHATSAPP_NUMBER, CS_PHONE_NUMBER };
+import { SALES_WHATSAPP_NUMBER } from './siteConfig';
+export { SALES_WHATSAPP_NUMBER };

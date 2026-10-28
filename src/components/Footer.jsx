@@ -145,13 +145,9 @@ export default function Footer({ onNavigate }) {
           {/* Col 4: Layanan Kontak */}
           <div>
             <h4 style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-              Kontak Sales &amp; CS
+              Kontak Sales Resmi
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.85)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <Phone size={16} color="var(--color-xl-teal)" />
-                <span>Call Center: <strong>{siteConfig.callCenterNumber}</strong> (Bebas Pulsa XL)</span>
-              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <Phone size={16} color="var(--color-xl-teal)" />
                 <span>Sales WhatsApp: <strong>{siteConfig.salesWhatsAppDisplay}</strong></span>

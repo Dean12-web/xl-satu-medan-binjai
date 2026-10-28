@@ -182,6 +182,5 @@ Untuk rencana pengembangan fase berikutnya (integrasi Admin Dashboard CMS dan RE
 ## 📞 Informasi Kontak & Layanan
 
 - **Wilayah Layanan**: Kota Medan, Kota Binjai, dan Kabupaten Deli Serdang, Sumatera Utara
-- **Layanan Pelanggan XL**: 820 (Bebas Pulsa bagi pengguna XL)
 - **Alamat Kantor**: XL Center Medan - Jl. Diponegoro No. 34, Medan Kota, Sumatera Utara
 - **WhatsApp Sales**: [0877-8034-6500](https://wa.me/6287780346500)
