@@ -6,9 +6,11 @@ import {
   Radio,
   Zap
 } from 'lucide-react';
-import { fwaHubDevices, siteConfig } from '../data';
+import { fwaHubDevices } from '../data';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export default function FwaHubAnimation() {
+  const { siteConfig } = useSiteConfig();
   const renderDeviceIcon = (iconName, color) => {
     switch (iconName) {
       case 'Tv':

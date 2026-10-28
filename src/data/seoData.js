@@ -46,7 +46,7 @@ export const pageSeoData = {
 };
 
 // Generate Schema.org JSON-LD Structured Data
-export const generateJsonLdSchema = (pageKey = 'home') => {
+export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) => {
   const page = pageSeoData[pageKey] || pageSeoData.home;
   const canonicalUrl = `${siteSeoConfig.baseUrl}${page.path === '/' ? '' : page.path}`;
 
@@ -124,37 +124,34 @@ export const generateJsonLdSchema = (pageKey = 'home') => {
     }
   };
 
-  // OfferCatalog Schema for packages
+  // OfferCatalog Schema for packages (Gunakan data paket live jika ada, atau fallback lokal)
+  const activePackages = Array.isArray(customPackages) && customPackages.length > 0 
+    ? customPackages 
+    : [...fiberPackages, ...fwaPackages];
+
   const offerCatalogSchema = {
     '@context': 'https://schema.org',
     '@type': 'OfferCatalog',
     name: 'Katalog Paket Internet XL SATU Medan & Binjai',
-    itemListElement: [
-      ...fiberPackages.map((pkg) => ({
+    itemListElement: activePackages.map((pkg) => {
+      const priceRaw = String(pkg.promoPrice || pkg.price || '0').replace(/[^0-9]/g, '');
+      const isFiber = pkg.type === 'Fiber' || !pkg.type;
+      const targetHash = isFiber ? '#paket' : '#fwa';
+      const featuresStr = Array.isArray(pkg.features) ? pkg.features.join(', ') : (pkg.description || '');
+
+      return {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: `XL SATU Fiber ${pkg.speed}`,
-          description: pkg.features.join(', ')
+          name: pkg.name || `XL SATU ${pkg.speed || ''}`,
+          description: featuresStr
         },
-        price: pkg.promoPrice.replace(/[^0-9]/g, ''),
+        price: priceRaw || '0',
         priceCurrency: 'IDR',
         availability: 'https://schema.org/InStock',
-        url: `${siteSeoConfig.baseUrl}/#paket`
-      })),
-      ...fwaPackages.map((pkg) => ({
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: pkg.name,
-          description: pkg.features.join(', ')
-        },
-        price: pkg.promoPrice.replace(/[^0-9]/g, ''),
-        priceCurrency: 'IDR',
-        availability: 'https://schema.org/InStock',
-        url: `${siteSeoConfig.baseUrl}/#fwa`
-      }))
-    ]
+        url: `${siteSeoConfig.baseUrl}/${targetHash}`
+      };
+    })
   };
 
   return {

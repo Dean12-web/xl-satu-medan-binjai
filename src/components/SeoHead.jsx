@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { pageSeoData as fallbackPageSeo, siteSeoConfig as fallbackGlobalSeo, generateJsonLdSchema } from '../data/seoData';
-import { publicSeoService } from '../services/api';
+import { publicSeoService, publicPackageService } from '../services/api';
 
 export default function SeoHead({ activePage = 'home' }) {
   const [globalSeo, setGlobalSeo] = useState(fallbackGlobalSeo);
   const [pageSeo, setPageSeo] = useState(fallbackPageSeo[activePage] || fallbackPageSeo.home);
+  const [livePackages, setLivePackages] = useState(null);
 
   // Fetch global SEO once
   useEffect(() => {
@@ -20,6 +21,23 @@ export default function SeoHead({ activePage = 'home' }) {
       }
     };
     fetchGlobal();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Fetch package catalog for JSON-LD schema
+  useEffect(() => {
+    let isMounted = true;
+    const fetchPackages = async () => {
+      try {
+        const data = await publicPackageService.getPackages();
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setLivePackages(data);
+        }
+      } catch {
+        // Fallback default
+      }
+    };
+    fetchPackages();
     return () => { isMounted = false; };
   }, []);
 
@@ -105,8 +123,8 @@ export default function SeoHead({ activePage = 'home' }) {
       schemaScript.type = 'application/ld+json';
       document.head.appendChild(schemaScript);
     }
-    schemaScript.textContent = JSON.stringify(generateJsonLdSchema(activePage));
-  }, [activePage, pageSeo, globalSeo]);
+    schemaScript.textContent = JSON.stringify(generateJsonLdSchema(activePage, livePackages));
+  }, [activePage, pageSeo, globalSeo, livePackages]);
 
   return null;
 }

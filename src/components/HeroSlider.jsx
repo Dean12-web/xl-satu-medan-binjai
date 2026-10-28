@@ -6,13 +6,14 @@ import {
   Pause
 } from 'lucide-react';
 import { heroSlides as fallbackSlides, fwaPackages } from '../data';
-import { publicBannerService } from '../services/api';
+import { publicBannerService, publicPackageService } from '../services/api';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import { safeOpenExternal } from '../utils/validation';
 
 export default function HeroSlider({ onNavigate, onSelectPlan }) {
   const { siteConfig, buildWhatsAppUrl } = useSiteConfig();
   const [slides, setSlides] = useState(fallbackSlides);
+  const [fwaPlan, setFwaPlan] = useState(fwaPackages[0] || null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
@@ -52,6 +53,20 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
     };
 
     fetchBanners();
+
+    // Fetch paket FWA live agar tombol CTA terhubung ke data aktual backend
+    const fetchFwaPlan = async () => {
+      try {
+        const fwaData = await publicPackageService.getPackages('FWA');
+        if (isMounted && fwaData && Array.isArray(fwaData) && fwaData.length > 0) {
+          setFwaPlan(fwaData[0]);
+        }
+      } catch {
+        // Fallback default fwaPackages tetap dipertahankan
+      }
+    };
+    fetchFwaPlan();
+
     return () => { isMounted = false; };
   }, []);
 
@@ -125,7 +140,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
       onNavigate(cta.target);
     } else if (cta.target === 'order-fwa') {
       if (onSelectPlan) {
-        onSelectPlan(fwaPackages[0] || {
+        onSelectPlan(fwaPlan || fwaPackages[0] || {
           id: 'fwa-premium',
           name: 'XL SATU FWA Premium Unlimited',
           promoPrice: 'Rp249.000'

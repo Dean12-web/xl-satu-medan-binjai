@@ -25,8 +25,11 @@ export function SiteConfigProvider({ children }) {
           setSiteConfig((prev) => ({
             ...prev,
             ...data,
-            // Ensure socialMedia is preserved if not present in response
-            socialMedia: data.socialMedia || prev.socialMedia,
+            // Sinkronisasi socialMedia: jika ada dalam respons API (termasuk null atau array kosong),
+            // prioritaskan data API dan jangan fallback ke dummy lokal
+            socialMedia: ('socialMedia' in data)
+              ? (Array.isArray(data.socialMedia) ? data.socialMedia : null)
+              : prev.socialMedia,
           }));
         }
       } catch (error) {

@@ -88,7 +88,7 @@ export default function CoverageForm({
     setGpsLocation(coordsStr);
     setLocatingError('');
 
-    const nearest = findNearestDistrictAndOdp(lat, lng);
+    const nearest = findNearestDistrictAndOdp(lat, lng, coverageAreas);
     if(nearest && nearest.city && !selectedDistrict){
       setSelectedCity(nearest.city);
       if(nearest.district){
@@ -115,7 +115,7 @@ export default function CoverageForm({
         setUserCoords({lat: latitude, lng: longitude});
         setIsLocating(false);
 
-        const nearest = findNearestDistrictAndOdp(latitude, longitude);
+        const nearest = findNearestDistrictAndOdp(latitude, longitude, coverageAreas);
         if(nearest && nearest.city){
           setSelectedCity(nearest.city);
           if(nearest.district){

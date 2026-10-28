@@ -119,19 +119,25 @@ export function calculateDistanceKm(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-export function findNearestDistrictAndOdp(lat, lng) {
+export function findNearestDistrictAndOdp(lat, lng, customAreas = null) {
   let nearestDistrict = null;
   let nearestCity = null;
   let minDistrictDist = Infinity;
 
+  // Gunakan data area dinamis jika disediakan, atau fallback ke data lokal
+  const targetAreas = Array.isArray(customAreas) && customAreas.length > 0 ? customAreas : coverageAreas;
+
   // Search all districts
-  for (const cityGroup of coverageAreas) {
-    for (const district of cityGroup.districts) {
-      const dist = calculateDistanceKm(lat, lng, district.lat, district.lng);
-      if (dist < minDistrictDist) {
-        minDistrictDist = dist;
-        nearestDistrict = district;
-        nearestCity = cityGroup.city;
+  for (const cityGroup of targetAreas) {
+    const districts = Array.isArray(cityGroup.districts) ? cityGroup.districts : [];
+    for (const district of districts) {
+      if (district && district.lat != null && district.lng != null) {
+        const dist = calculateDistanceKm(lat, lng, Number(district.lat), Number(district.lng));
+        if (dist < minDistrictDist) {
+          minDistrictDist = dist;
+          nearestDistrict = district;
+          nearestCity = cityGroup.city || cityGroup.name;
+        }
       }
     }
   }
@@ -140,10 +146,12 @@ export function findNearestDistrictAndOdp(lat, lng) {
   let nearestOdp = null;
   let minOdpDist = Infinity;
   for (const odp of majorOdpNodes) {
-    const dist = calculateDistanceKm(lat, lng, odp.lat, odp.lng);
-    if (dist < minOdpDist) {
-      minOdpDist = dist;
-      nearestOdp = odp;
+    if (odp && odp.lat != null && odp.lng != null) {
+      const dist = calculateDistanceKm(lat, lng, Number(odp.lat), Number(odp.lng));
+      if (dist < minOdpDist) {
+        minOdpDist = dist;
+        nearestOdp = odp;
+      }
     }
   }
 
