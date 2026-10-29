@@ -3,11 +3,11 @@ import { siteConfig } from './siteConfig';
 
 export const siteSeoConfig = {
   siteName: 'XL SATU Medan, Binjai & Deli Serdang',
-  baseUrl: 'https://xlsatumedanbinjai.com',
+  baseUrl: 'https://xlsatumebidang.com',
   defaultTitle: 'XL SATU Medan, Binjai & Deli Serdang - Pasang WiFi Internet Rumah Fiber & FWA',
   defaultDescription: 'Promo pasang baru internet rumah fiber optik & nirkabel XL SATU super cepat hingga 400 Mbps + kuota HP sekeluarga khusus area Medan, Binjai & Deli Serdang. Gratis biaya instalasi!',
   defaultKeywords: 'XL SATU Medan, XL SATU Binjai, XL SATU Deli Serdang, Pasang WiFi Medan, Internet Rumah Fiber Medan, Paket XL SATU, XL SATU FWA, Internet Unlimited Medan, Pasang Internet Binjai, XL Axiata First Media Medan',
-  defaultImage: 'https://xlsatumedanbinjai.com/assets/slide-1.webp',
+  defaultImage: 'https://xlsatumebidang.com/assets/slide-1.webp',
   locale: 'id_ID',
   themeColor: '#164391',
   geo: {

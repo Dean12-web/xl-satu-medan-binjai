@@ -4,5 +4,5 @@ Allow: /
 Disallow: /api/
 
 # Host & Sitemap
-Host: https://xlsatumedanbinjai.com
-Sitemap: https://xlsatumedanbinjai.com/sitemap.xml
+Host: https://xlsatumebidang.com
+Sitemap: https://xlsatumebidang.com/sitemap.xml
