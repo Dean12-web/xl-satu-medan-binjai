@@ -68,11 +68,20 @@
 </IfModule>
 
 # ----------------------------------------------------------------------
-# 4. SPA URL REWRITE (React Vite Routing)
+# 4. SPA URL REWRITE & SITEMAP HANDLING (React Vite Routing)
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Redirect /sitemap atau /sitemap/ ke /sitemap.xml secara otomatis
+  RewriteRule ^sitemap/?$ /sitemap.xml [R=301,L]
+
+  # Mencegah file .xml atau .txt non-eksisten jatuh ke index.html (hindari salah tafsir Googlebot sebagai HTML)
+  RewriteCond %{REQUEST_URI} \.(xml|txt)$ [NC]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ - [R=404,L]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
