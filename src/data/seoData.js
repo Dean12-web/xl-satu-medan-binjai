@@ -2,17 +2,17 @@ import { fiberPackages, fwaPackages } from './packages';
 import { siteConfig } from './siteConfig';
 
 export const siteSeoConfig = {
-  siteName: 'XL SATU Medan & Binjai',
+  siteName: 'XL SATU Medan, Binjai & Deli Serdang',
   baseUrl: 'https://xlsatumedanbinjai.com',
-  defaultTitle: 'XL SATU Medan & Binjai - Pasang WiFi Internet Rumah Fiber & FWA',
+  defaultTitle: 'XL SATU Medan, Binjai & Deli Serdang - Pasang WiFi Internet Rumah Fiber & FWA',
   defaultDescription: 'Promo pasang baru internet rumah fiber optik & nirkabel XL SATU super cepat hingga 400 Mbps + kuota HP sekeluarga khusus area Medan, Binjai & Deli Serdang. Gratis biaya instalasi!',
-  defaultKeywords: 'XL SATU Medan, XL SATU Binjai, Pasang WiFi Medan, Internet Rumah Fiber Medan, Paket XL SATU, XL SATU FWA, Internet Unlimited Medan, Pasang Internet Binjai, XL Axiata First Media Medan',
+  defaultKeywords: 'XL SATU Medan, XL SATU Binjai, XL SATU Deli Serdang, Pasang WiFi Medan, Internet Rumah Fiber Medan, Paket XL SATU, XL SATU FWA, Internet Unlimited Medan, Pasang Internet Binjai, XL Axiata First Media Medan',
   defaultImage: 'https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?auto=format&fit=crop&w=1200&q=80',
   locale: 'id_ID',
   themeColor: '#164391',
   geo: {
     region: 'ID-SU',
-    placename: 'Medan, Binjai, Sumatera Utara',
+    placename: 'Medan, Binjai, Deli Serdang, Sumatera Utara',
     position: '3.595196;98.672223',
     icbm: '3.595196, 98.672223'
   }
@@ -20,21 +20,21 @@ export const siteSeoConfig = {
 
 export const pageSeoData = {
   home: {
-    title: 'XL SATU Medan & Binjai - Internet Rumah Fiber Optic & FWA Unlimited',
-    description: 'Daftar pasang internet rumah fiber optik XL SATU di Medan & Binjai. Nikmati kecepatan super hingga 400 Mbps tanpa FUP, bonus kuota seluler sekeluarga, dan gratis biaya pasang.',
-    keywords: 'XL SATU Medan, XL SATU Binjai, internet rumah fiber medan, pasang wifi medan, pasang internet binjai, promo xl satu sumut, internet unmetered medan',
+    title: 'XL SATU Medan, Binjai & Deli Serdang - Internet Rumah Fiber Optic & FWA Unlimited',
+    description: 'Daftar pasang internet rumah fiber optik XL SATU di Medan, Binjai & Deli Serdang. Nikmati kecepatan super hingga 400 Mbps tanpa FUP, bonus kuota seluler sekeluarga, dan gratis biaya pasang.',
+    keywords: 'XL SATU Medan, XL SATU Binjai, XL SATU Deli Serdang, internet rumah fiber medan, pasang wifi medan, pasang internet binjai, promo xl satu sumut, internet unmetered medan',
     path: '/'
   },
   paket: {
-    title: 'Katalog Paket Internet Fiber & FWA XL SATU Medan & Binjai | Bebas FUP',
-    description: 'Daftar harga promo paket internet rumah fiber XL SATU Medan & Binjai mulai 250 Mbps hingga 400 Mbps. Termasuk peminjaman router Wi-Fi dual band & kuota nomor XL sekeluarga.',
-    keywords: 'paket xl satu medan, harga pasang wifi xl satu, paket internet fiber binjai, xl satu 250 mbps, xl satu 350 mbps, xl satu 400 mbps, biaya pasang wifi medan',
+    title: 'Katalog Paket Internet Fiber & FWA XL SATU Medan, Binjai & Deli Serdang | Bebas FUP',
+    description: 'Daftar harga promo paket internet rumah fiber XL SATU Medan, Binjai & Deli Serdang mulai 250 Mbps hingga 400 Mbps. Termasuk peminjaman router Wi-Fi dual band & kuota nomor XL sekeluarga.',
+    keywords: 'paket xl satu medan, harga pasang wifi xl satu, paket internet fiber binjai, paket fiber deli serdang, xl satu 250 mbps, xl satu 350 mbps, xl satu 400 mbps, biaya pasang wifi medan',
     path: '/#paket'
   },
   fwa: {
-    title: 'XL SATU FWA Medan & Binjai - Internet Rumah Nirkabel Plug & Play',
-    description: 'Solusi internet rumah nirkabel praktis XL SATU FWA berbasis sinyal 5G/4G XL Axiata terkuat di Medan & Binjai. Colok ke listrik langsung aktif tanpa tunggu teknisi tarik kabel.',
-    keywords: 'xl satu fwa medan, modem wifi fwa binjai, internet nirkabel rumah medan, pasang wifi tanpa kabel optic, xl satu fwa 100 gb, fwa unlimited medan',
+    title: 'XL SATU FWA Medan, Binjai & Deli Serdang - Internet Rumah Nirkabel Plug & Play',
+    description: 'Solusi internet rumah nirkabel praktis XL SATU FWA berbasis sinyal 5G/4G XL Axiata terkuat di Medan, Binjai & Deli Serdang. Colok ke listrik langsung aktif tanpa tunggu teknisi tarik kabel.',
+    keywords: 'xl satu fwa medan, modem wifi fwa binjai, fwa deli serdang, internet nirkabel rumah medan, pasang wifi tanpa kabel optic, xl satu fwa 100 gb, fwa unlimited medan',
     path: '/#fwa'
   },
   coverage: {
@@ -56,7 +56,7 @@ export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) =>
     '@type': 'TelecommunicationsProvider',
     '@id': `${siteSeoConfig.baseUrl}/#organization`,
     name: siteSeoConfig.siteName,
-    alternateName: 'XL SATU Sumatera Utara (Medan & Binjai)',
+    alternateName: 'XL SATU Sumatera Utara (Medan, Binjai & Deli Serdang)',
     url: siteSeoConfig.baseUrl,
     logo: `${siteSeoConfig.baseUrl}/xl-icon.webp`,
     image: siteSeoConfig.defaultImage,
@@ -132,7 +132,7 @@ export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) =>
   const offerCatalogSchema = {
     '@context': 'https://schema.org',
     '@type': 'OfferCatalog',
-    name: 'Katalog Paket Internet XL SATU Medan & Binjai',
+    name: 'Katalog Paket Internet XL SATU Medan, Binjai & Deli Serdang',
     itemListElement: activePackages.map((pkg) => {
       const priceRaw = String(pkg.promoPrice || pkg.price || '0').replace(/[^0-9]/g, '');
       const isFiber = pkg.type === 'Fiber' || !pkg.type;

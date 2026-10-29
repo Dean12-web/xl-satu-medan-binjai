@@ -9,7 +9,7 @@ export const footerNavigation = [
   { id: 'home', label: 'Beranda Utama' },
   { id: 'paket', label: 'Pilihan Paket Fiber Unlimited' },
   { id: 'fwa', label: 'XL SATU FWA (Modem Nirkabel)' },
-  { id: 'coverage', label: 'Cek Area Jangkauan Medan & Binjai' }
+  { id: 'coverage', label: 'Cek Area Jangkauan Medan, Binjai & Deli Serdang' }
 ];
 
 export const popularCoverageAreas = [

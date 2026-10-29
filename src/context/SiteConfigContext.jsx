@@ -22,15 +22,22 @@ export function SiteConfigProvider({ children }) {
       try {
         const data = await publicSettingService.getSettings();
         if (isMounted && data && typeof data === 'object') {
-          setSiteConfig((prev) => ({
-            ...prev,
-            ...data,
-            // Sinkronisasi socialMedia: jika ada dalam respons API (termasuk null atau array kosong),
-            // prioritaskan data API dan jangan fallback ke dummy lokal
-            socialMedia: ('socialMedia' in data)
-              ? (Array.isArray(data.socialMedia) ? data.socialMedia : null)
-              : prev.socialMedia,
-          }));
+          setSiteConfig((prev) => {
+            const resolvedTagline = (data.brandTagline && data.brandTagline !== 'Medan & Binjai')
+              ? data.brandTagline
+              : (prev.brandTagline || 'Medan, Binjai & Deli Serdang');
+
+            return {
+              ...prev,
+              ...data,
+              brandTagline: resolvedTagline,
+              // Sinkronisasi socialMedia: jika ada dalam respons API (termasuk null atau array kosong),
+              // prioritaskan data API dan jangan fallback ke dummy lokal
+              socialMedia: ('socialMedia' in data)
+                ? (Array.isArray(data.socialMedia) ? data.socialMedia : null)
+                : prev.socialMedia,
+            };
+          });
         }
       } catch (error) {
         console.warn('Gagal fetch site-config dari API, pakai default fallback lokal:', error);
@@ -50,12 +57,12 @@ export function SiteConfigProvider({ children }) {
 
   const buildGeneralConsultationUrl = () => {
     return buildWhatsAppUrl(
-      'Halo Sales & Customer Service XL SATU Medan,Binjai dan Deli serdang, saya ingin konsultasi paket internet rumah dan info terbaru.'
+      'Halo Sales & Customer Service XL SATU Medan, Binjai & Deli Serdang, saya ingin konsultasi paket internet rumah dan info terbaru.'
     );
   };
 
   const buildCoverageCheckUrl = ({ fullName, whatsapp, selectedCity, selectedDistrict, addressDetails, gpsLocation }) => {
-    const message = `Halo Sales XL SATU Medan & Binjai dan Deli serdang, saya ingin cek ketersediaan jaringan / tiang ODP fiber untuk alamat saya:\n\n` +
+    const message = `Halo Sales XL SATU Medan, Binjai & Deli Serdang, saya ingin cek ketersediaan jaringan / tiang ODP fiber untuk alamat saya:\n\n` +
       `*Nama Lengkap:* ${fullName || '-'}\n` +
       `*No. WhatsApp:* ${whatsapp || '-'}\n` +
       `*Kota/Area:* ${selectedCity || '-'}\n` +
@@ -70,7 +77,7 @@ export function SiteConfigProvider({ children }) {
     const planName = selectedPackage ? selectedPackage.name : 'Paket Internet XL SATU (Konsultasi)';
     const planPrice = selectedPackage ? (selectedPackage.promoPrice || selectedPackage.price) : '-';
 
-    const message = `Halo Sales XL SATU Medan, Binjai dan Deli serdang, saya ingin mendaftar pemasangan baru:\n\n` +
+    const message = `Halo Sales XL SATU Medan, Binjai & Deli Serdang, saya ingin mendaftar pemasangan baru:\n\n` +
       `*Pilihan Paket:* ${planName}\n` +
       `*Harga Promo:* ${planPrice}\n` +
       `*Nama Lengkap:* ${name || '-'}\n` +

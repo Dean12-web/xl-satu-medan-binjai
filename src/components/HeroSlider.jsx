@@ -147,7 +147,7 @@ export default function HeroSlider({ onNavigate, onSelectPlan }) {
         });
       }
     } else if (cta.target === 'whatsapp') {
-      const text = 'Halo Sales XL SATU Medan & Binjai, saya tertarik dengan promo internet XL SATU.';
+      const text = `Halo Sales XL SATU ${siteConfig.brandTagline || 'Medan, Binjai & Deli Serdang'}, saya tertarik dengan promo internet XL SATU.`;
       safeOpenExternal(buildWhatsAppUrl(text));
     }
   };

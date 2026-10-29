@@ -1,4 +1,4 @@
-# robots.txt for XL SATU Medan & Binjai
+# robots.txt for XL SATU Medan, Binjai & Deli Serdang
 User-agent: *
 Allow: /
 Disallow: /api/

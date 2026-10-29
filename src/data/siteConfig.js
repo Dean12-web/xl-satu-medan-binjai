@@ -44,12 +44,12 @@ export const buildWhatsAppUrl = (phoneNumber, text) => {
 export const buildGeneralConsultationUrl = () => {
   return buildWhatsAppUrl(
     siteConfig.salesWhatsApp,
-    'Halo Sales & Customer Service XL SATU Medan - Binjai, saya ingin konsultasi paket internet rumah dan info terbaru.'
+    'Halo Sales & Customer Service XL SATU Medan, Binjai & Deli Serdang, saya ingin konsultasi paket internet rumah dan info terbaru.'
   );
 };
 
 export const buildCoverageCheckUrl = ({ fullName, whatsapp, selectedCity, selectedDistrict, addressDetails, gpsLocation }) => {
-  const message = `Halo Sales XL SATU Medan & Binjai, saya ingin cek ketersediaan jaringan / tiang ODP fiber untuk alamat saya:\n\n` +
+  const message = `Halo Sales XL SATU Medan, Binjai & Deli Serdang, saya ingin cek ketersediaan jaringan / tiang ODP fiber untuk alamat saya:\n\n` +
     `*Nama Lengkap:* ${fullName || '-'}\n` +
     `*No. WhatsApp:* ${whatsapp || '-'}\n` +
     `*Kota/Area:* ${selectedCity || '-'}\n` +
@@ -62,9 +62,9 @@ export const buildCoverageCheckUrl = ({ fullName, whatsapp, selectedCity, select
 
 export const buildOrderUrl = ({ selectedPackage, name, phone, city, address }) => {
   const planName = selectedPackage ? selectedPackage.name : 'Paket Internet XL SATU (Konsultasi)';
-  const planPrice = selectedPackage ? selectedPackage.promoPrice : '-';
+  const planPrice = selectedPackage ? (selectedPackage.promoPrice || selectedPackage.price) : '-';
 
-  const message = `Halo Sales XL SATU Medan & Binjai, saya ingin mendaftar pemasangan baru:\n\n` +
+  const message = `Halo Sales XL SATU Medan, Binjai & Deli Serdang, saya ingin mendaftar pemasangan baru:\n\n` +
     `*Pilihan Paket:* ${planName}\n` +
     `*Harga Promo:* ${planPrice}\n` +
     `*Nama Lengkap:* ${name || '-'}\n` +

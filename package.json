@@ -10,6 +10,7 @@
     "build:admin": "npm --prefix admin run build",
     "build:all": "npm run build && npm run build:admin",
     "lint": "eslint .",
+    "deploy": "git checkout index.html && rm -rf dist assets && vite build && cp -rf dist/* .",
     "preview": "vite preview"
   },
   "dependencies": {
