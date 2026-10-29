@@ -2,7 +2,7 @@ import { ShieldCheck, Phone, MapPin, ChevronRight, ExternalLink } from 'lucide-r
 import { footerNavigation, popularCoverageAreas } from '../data';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import logo from '../assets/xl-icon.webp';
-import { renderBrandTagline } from './Navbar';
+import { renderBrandTagline } from '../utils/brand';
 
 function SocialIcon({ type, size = 20 }) {
   switch (type) {

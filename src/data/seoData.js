@@ -7,7 +7,7 @@ export const siteSeoConfig = {
   defaultTitle: 'XL SATU Medan, Binjai & Deli Serdang - Pasang WiFi Internet Rumah Fiber & FWA',
   defaultDescription: 'Promo pasang baru internet rumah fiber optik & nirkabel XL SATU super cepat hingga 400 Mbps + kuota HP sekeluarga khusus area Medan, Binjai & Deli Serdang. Gratis biaya instalasi!',
   defaultKeywords: 'XL SATU Medan, XL SATU Binjai, XL SATU Deli Serdang, Pasang WiFi Medan, Internet Rumah Fiber Medan, Paket XL SATU, XL SATU FWA, Internet Unlimited Medan, Pasang Internet Binjai, XL Axiata First Media Medan',
-  defaultImage: 'https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?auto=format&fit=crop&w=1200&q=80',
+  defaultImage: 'https://xlsatumedanbinjai.com/assets/slide-1.webp',
   locale: 'id_ID',
   themeColor: '#164391',
   geo: {
@@ -29,19 +29,19 @@ export const pageSeoData = {
     title: 'Katalog Paket Internet Fiber & FWA XL SATU Medan, Binjai & Deli Serdang | Bebas FUP',
     description: 'Daftar harga promo paket internet rumah fiber XL SATU Medan, Binjai & Deli Serdang mulai 250 Mbps hingga 400 Mbps. Termasuk peminjaman router Wi-Fi dual band & kuota nomor XL sekeluarga.',
     keywords: 'paket xl satu medan, harga pasang wifi xl satu, paket internet fiber binjai, paket fiber deli serdang, xl satu 250 mbps, xl satu 350 mbps, xl satu 400 mbps, biaya pasang wifi medan',
-    path: '/#paket'
+    path: '/paket'
   },
   fwa: {
     title: 'XL SATU FWA Medan, Binjai & Deli Serdang - Internet Rumah Nirkabel Plug & Play',
     description: 'Solusi internet rumah nirkabel praktis XL SATU FWA berbasis sinyal 5G/4G XL Axiata terkuat di Medan, Binjai & Deli Serdang. Colok ke listrik langsung aktif tanpa tunggu teknisi tarik kabel.',
     keywords: 'xl satu fwa medan, modem wifi fwa binjai, fwa deli serdang, internet nirkabel rumah medan, pasang wifi tanpa kabel optic, xl satu fwa 100 gb, fwa unlimited medan',
-    path: '/#fwa'
+    path: '/fwa'
   },
   coverage: {
     title: 'Cek Coverage Area Jaringan & Tiang ODP XL SATU Medan, Binjai & Deli Serdang',
     description: 'Formulir online cek ketersediaan tiang ODP fiber optik dan jangkauan sinyal BTS XL SATU di lokasi Anda area Kota Medan, Kota Binjai, dan Kab. Deli Serdang.',
     keywords: 'cek coverage xl satu medan, titik tiang odp xl satu medan, area fiber optik binjai, jangkauan sinyal xl satu deli serdang, cek odp wifi medan',
-    path: '/#coverage'
+    path: '/coverage'
   }
 };
 
@@ -136,7 +136,7 @@ export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) =>
     itemListElement: activePackages.map((pkg) => {
       const priceRaw = String(pkg.promoPrice || pkg.price || '0').replace(/[^0-9]/g, '');
       const isFiber = pkg.type === 'Fiber' || !pkg.type;
-      const targetHash = isFiber ? '#paket' : '#fwa';
+      const targetPath = isFiber ? 'paket' : 'fwa';
       const featuresStr = Array.isArray(pkg.features) ? pkg.features.join(', ') : (pkg.description || '');
 
       return {
@@ -149,9 +149,57 @@ export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) =>
         price: priceRaw || '0',
         priceCurrency: 'IDR',
         availability: 'https://schema.org/InStock',
-        url: `${siteSeoConfig.baseUrl}/${targetHash}`
+        url: `${siteSeoConfig.baseUrl}/${targetPath}`
       };
     })
+  };
+
+  // FAQ Schema (Bantu Rich Snippet Google Search FAQ)
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Berapa biaya pasang baru internet XL SATU di Medan dan Binjai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Pemasangan baru internet rumah XL SATU Fiber dan FWA di area Medan, Binjai, dan Deli Serdang 100% GRATIS biaya instalasi teknisi dan sudah dipinjamkan modem WiFi berkecepatan tinggi.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Apa saja syarat berlangganan pasang WiFi XL SATU?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Syaratnya sangat mudah: cukup siapkan Foto KTP asli yang masih berlaku, nomor WhatsApp aktif, alamat email, dan share lokasi/titik alamat pemasangan untuk cek ketersediaan tiang ODP fiber.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Apakah internet XL SATU ada batasan kuota (FUP)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Tidak ada. Paket internet rumah fiber XL SATU bersifat Truly Unlimited tanpa batasan FUP (Fair Usage Policy), sehingga kecepatan internet tetap stabil 24 jam non-stop sekeluarga.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Berapa lama proses pemasangan teknisi ke rumah?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Setelah formulir pendaftaran dan verifikasi ID disetujui, teknisi resmi XL SATU akan datang melakukan penarikan kabel dan instalasi perangkat dalam waktu 1x24 jam hingga maksimal 2x24 jam.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Apa perbedaan antara XL SATU Fiber dan XL SATU FWA?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'XL SATU Fiber menggunakan kabel fiber optik langsung dari tiang ODP ke rumah dengan kecepatan hingga 400 Mbps. Sedangkan XL SATU FWA menggunakan modem nirkabel berbasis sinyal 5G/4G+ XL Axiata, colok listrik langsung aktif tanpa perlu tarik kabel luar.'
+        }
+      }
+    ]
   };
 
   return {
@@ -160,7 +208,8 @@ export const generateJsonLdSchema = (pageKey = 'home', customPackages = null) =>
       localBusinessSchema,
       websiteSchema,
       webpageSchema,
-      offerCatalogSchema
+      offerCatalogSchema,
+      faqSchema
     ]
   };
 };

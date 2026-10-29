@@ -19,29 +19,44 @@ const PageLoader = () => (
   </div>
 );
 
+const getPageFromUrl = () => {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+  const hash = window.location.hash.replace(/^#+/, '').toLowerCase();
+  if (['paket', 'fwa', 'coverage'].includes(path)) return path;
+  if (['paket', 'fwa', 'coverage'].includes(hash)) return hash;
+  return 'home';
+};
+
 function App() {
-  const [activePage, setActivePage] = useState('home');
+  const [activePage, setActivePage] = useState(() => getPageFromUrl());
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
-  // Sync hash on initial load & on hash change
+  // Sync URL on initial load & on browser back/forward or hash change
   useEffect(() => {
-    const handleHashCheck = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['paket', 'fwa', 'coverage'].includes(hash)) {
-        setActivePage(hash);
-      }
+    const handleUrlChange = () => {
+      const page = getPageFromUrl();
+      setActivePage(page);
     };
 
-    handleHashCheck();
-    window.addEventListener('hashchange', handleHashCheck);
-    return () => window.removeEventListener('hashchange', handleHashCheck);
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, []);
 
-  // Scroll to top on page change
-  useEffect(() => {
+  // Centralized Navigation Handler with PushState
+  const handleNavigate = (pageId) => {
+    setActivePage(pageId);
+    const newPath = pageId === 'home' ? '/' : `/${pageId}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({ page: pageId }, '', newPath);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [activePage]);
+  };
 
   const handleSelectPlan = (pkg) => {
     setSelectedPackage(pkg);
@@ -58,7 +73,7 @@ function App() {
       case 'home':
         return (
           <HomePage
-            onNavigate={setActivePage}
+            onNavigate={handleNavigate}
             onSelectPlan={handleSelectPlan}
           />
         );
@@ -66,14 +81,14 @@ function App() {
         return (
           <PaketPage
             onSelectPlan={handleSelectPlan}
-            onNavigate={setActivePage}
+            onNavigate={handleNavigate}
           />
         );
       case 'fwa':
         return (
           <FwaPage
             onSelectPlan={handleSelectPlan}
-            onNavigate={setActivePage}
+            onNavigate={handleNavigate}
           />
         );
       case 'coverage':
@@ -81,7 +96,7 @@ function App() {
       default:
         return (
           <HomePage
-            onNavigate={setActivePage}
+            onNavigate={handleNavigate}
             onSelectPlan={handleSelectPlan}
           />
         );
@@ -96,7 +111,7 @@ function App() {
       {/* Top Navbar */}
       <Navbar
         activePage={activePage}
-        setActivePage={setActivePage}
+        setActivePage={handleNavigate}
         onOpenRegister={handleOpenRegister}
       />
 
@@ -108,7 +123,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <Footer onNavigate={setActivePage} />
+      <Footer onNavigate={handleNavigate} />
 
       {/* Global Floating Action Elements */}
       <FloatingWhatsApp />
