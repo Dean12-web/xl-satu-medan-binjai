@@ -68,25 +68,11 @@
 </IfModule>
 
 # ----------------------------------------------------------------------
-# 4. CANONICAL REDIRECTS (HTTPS & Non-WWW 301 Permanent Redirect)
+# 4. SPA URL REWRITE (React Vite Routing)
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-
-  # 4.1. Paksa HTTPS (HTTP -> HTTPS 301)
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-  # 4.2. Paksa Non-WWW (www.xlsatumebidang.com -> xlsatumebidang.com 301)
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-
-  # 4.3. Redirect /index.html ke root / (Mencegah Duplicate Content di GSC)
-  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
-  RewriteRule ^(.*)index\.html$ https://xlsatumebidang.com/$1 [R=301,L]
-
-  # 4.4. SPA URL REWRITE (React Vite Routing)
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
