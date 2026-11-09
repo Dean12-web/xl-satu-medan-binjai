@@ -70,7 +70,7 @@ export default function SeoHead({ activePage = 'home' }) {
     const title = page.title || config.defaultTitle;
     const description = page.description || config.defaultDescription;
     const keywords = page.keywords || config.defaultKeywords;
-    const canonicalUrl = `${config.baseUrl}${page.path === '/' ? '' : (page.path || '')}`;
+    const canonicalUrl = `${config.baseUrl}${page.path === '/' ? '/' : (page.path || '')}`;
     const ogImg = page.ogImage || page.og_image || config.defaultImage;
 
     // 1. Update Document Title
